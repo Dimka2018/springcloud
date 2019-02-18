@@ -1,0 +1,69 @@
+.message-modal-window {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 5;
+}
+
+.message {
+	width: 75vw;
+	height: 35vw;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	border: 0.3vw solid black;
+	border-radius: 2vw;
+	background: black;
+}
+
+.message-image-container {
+	width: 90%;
+	height: 20%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.message-text {
+	width: 90%;
+	height: 60%;
+	font-size: 2vw;
+	color: white;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.message-close-button {
+	width: 7%;
+	height: 100%;
+	background: black;
+	color: white;
+	font-size: 3.5vw;
+	text-align: center;
+}
+
+.message-close-button:hover {
+	cursor: pointer;
+	font-size: 4.5vw;
+	transition: 0.5s linear;
+}
+
+.message-close-button:not(hover) {
+	font-size: 3.5vw;
+	transition: 0.5s linear;
+}
+
+.white-rhombus {
+	width: 7%;
+	height: 70%;
+}
