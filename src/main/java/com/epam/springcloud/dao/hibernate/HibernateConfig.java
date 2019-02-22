@@ -12,12 +12,6 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.epam.springcloud.entity.user.User;
-import com.epam.springcloud.entity.user_file.FileToDelete;
-import com.epam.springcloud.entity.user_file.FileToDownload;
-import com.epam.springcloud.entity.user_file.FileToUpload;
-import com.epam.springcloud.entity.user_file.FileToUser;
-
 @Configuration
 @EnableTransactionManagement
 public class HibernateConfig {
@@ -47,7 +41,7 @@ public class HibernateConfig {
             javax.sql.DataSource dataSource, Properties hibernateProperties) {
         LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setAnnotatedClasses(User.class, FileToDelete.class, FileToDownload.class, FileToUpload.class, FileToUser.class);
+        bean.setPackagesToScan("com.epam.springcloud.entity");
         bean.setHibernateProperties(hibernateProperties);
         return bean;
     }

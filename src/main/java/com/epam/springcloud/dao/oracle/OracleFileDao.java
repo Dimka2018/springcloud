@@ -27,6 +27,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Component
+@Transactional(rollbackFor = {Exception.class})
 public class OracleFileDao implements FileDao {
 
     private static final String SAVE_PATH = "C:\\epam\\files";
@@ -38,7 +39,6 @@ public class OracleFileDao implements FileDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Transactional
     @Override
     public boolean isFileNameExists(FileToUser file) throws Exception {
         Criteria criteria = sessionFactory.getCurrentSession()
@@ -50,7 +50,6 @@ public class OracleFileDao implements FileDao {
         return !criteria.list().isEmpty();
     }
 
-    @Transactional
     @Override
     public FileToUser saveFile(FileToUpload file) throws Exception {
         String dirPath = SAVE_PATH + File.separatorChar + file.getUserId()
@@ -73,7 +72,7 @@ public class OracleFileDao implements FileDao {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public FileToDownload getUserFileById(Integer fileId, Integer userId)
             throws Exception {
         Criteria criteria = sessionFactory.getCurrentSession()
@@ -84,7 +83,7 @@ public class OracleFileDao implements FileDao {
     }
 
     @SuppressWarnings("unchecked")
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<FileToUser> getFileList(User user) throws Exception {
         Criteria criteria = sessionFactory.getCurrentSession()
@@ -92,8 +91,7 @@ public class OracleFileDao implements FileDao {
                 .add(Restrictions.eq(USER_ID_ATTRIBUTE_NAME, user.getId()));
         return criteria.list();
     }
-
-    @Transactional
+    
     @Override
     public void deleteFile(FileToDelete file) throws Exception {
         FileToDownload deletedFile = getUserFileById(file.getId(),
@@ -113,7 +111,6 @@ public class OracleFileDao implements FileDao {
         Files.delete(path.toPath());
     }
 
-    @Transactional
     @Override
     public void renameFile(FileToUser file) throws Exception {
         FileToDownload oldFile = getUserFileById(file.getId(),
@@ -133,7 +130,6 @@ public class OracleFileDao implements FileDao {
 
     }
 
-    @Transactional
     @Override
     public void attachBinaryFileToResponse(FileToDelete file,
             HttpServletResponse response) throws Exception {
@@ -151,7 +147,6 @@ public class OracleFileDao implements FileDao {
         response.getOutputStream().write(content);
     }
 
-    @Transactional
     @Override
     public boolean isFileExists(FileToUpload file) throws Exception {
         Criteria criteria = sessionFactory.getCurrentSession()

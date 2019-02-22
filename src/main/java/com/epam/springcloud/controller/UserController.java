@@ -4,18 +4,19 @@ import java.io.IOException;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.epam.springcloud.dao.UserDao;
 import com.epam.springcloud.entity.user.User;
 import com.epam.springcloud.resource.MessageBundle;
+import com.epam.springcloud.resource.SessionAtributeCaretaker;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -31,12 +32,15 @@ public class UserController {
 
     @PostMapping(path = { "/user" })
     public void registerUser(@Validated User user,
-	    BindingResult bindingResult, HttpServletResponse response,
+	    BindingResult bindingResult, HttpServletResponse response, HttpSession session,
 	    Locale locale) throws Exception {
 	log.debug("user try to registrate: " + user);
 	if (!bindingResult.hasErrors()) {
-	    if (userDao.registrateUser(user) == null) {
-		response.sendError(HttpServletResponse.SC_BAD_REQUEST, messageBundle.getUserExistsMessage(locale));
+	    User registredUser = userDao.registrateUser(user);
+	    if (registredUser != null) {
+	        session.setAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME, registredUser);
+	    } else {
+	        response.sendError(HttpServletResponse.SC_BAD_REQUEST, messageBundle.getUserExistsMessage(locale));
 	    }
 	} else {
 	    sendBindingError(response, bindingResult, locale);

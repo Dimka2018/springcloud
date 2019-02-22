@@ -1,0 +1,3 @@
+com\epam\springcloud\config\AppConfig.class
+com\epam\springcloud\controller\SessionController.class
+com\epam\springcloud\config\WebConfig.class

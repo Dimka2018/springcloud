@@ -32,12 +32,13 @@ class WelcomeView{
 		
 		$(".registration-form").submit(function(event){
 		    event.preventDefault();
-		    let user = new User($(".registration-login").val(), $(".registration-password").val());
+		    let user = new FormData(this);
 			$.ajax({
 				url: "user",
 				type: "POST",
-				contentType: "application/json",
-				data: JSON.stringify(user),
+				data: user,
+				contentType : false,
+				processData : false,
 				success: () => {
 					    window.location = "main";
 			    },

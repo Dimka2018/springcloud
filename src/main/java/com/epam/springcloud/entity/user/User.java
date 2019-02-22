@@ -1,5 +1,7 @@
 package com.epam.springcloud.entity.user;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +29,12 @@ import lombok.Setter;
 @Component
 @Entity
 @Table(name = "CLIENT")
-public class User {
+public class User implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
