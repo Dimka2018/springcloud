@@ -1,16 +1,15 @@
 package com.epam.springcloud.controller;
 
-import java.io.IOException;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,49 +32,29 @@ public class SessionController {
 
     @PostMapping(path = { "/user/session" })
     public void createSession(@Validated User user,
-	    BindingResult bindingResult, HttpSession session,
-	    HttpServletResponse response, Locale locale) throws Exception {
-	log.debug("user try to log in: " + user);
-	if (!bindingResult.hasErrors()) {
-	    User registredUser = userDao.getRegistredUser(user);
-	    log.debug("registred user: " + registredUser);
-	    if (registredUser != null) {
-		session.setAttribute(
-			SessionAtributeCaretaker.USER_ATTRIBUTE_NAME,
-			registredUser);
-	    } else {
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-			"Invalid login or password");
-	    }
-	} else {
-	    sendBindingError(response, bindingResult, locale);
-	}
+            BindingResult bindingResult, HttpSession session,
+            HttpServletResponse response, Locale locale) throws Exception {
+        log.debug("user try to log in: " + user);
+        if (!bindingResult.hasErrors()) {
+            User registredUser = userDao.getRegistredUser(user);
+            log.debug("registred user: " + registredUser);
+            if (registredUser != null) {
+                session.setAttribute(
+                        SessionAtributeCaretaker.USER_ATTRIBUTE_NAME,
+                        registredUser);
+            } else {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                        messageBundle.getInvalidUserMessage(locale));
+            }
+        } else {
+            throw new ValidationException(bindingResult.getFieldError().getDefaultMessage());
+        }
     }
 
     @DeleteMapping(path = { "/user/session" })
     public void deleteSession(HttpSession session) {
-	log.debug("user try to logout: ");
-	session.invalidate();
-    }
-
-    private void sendBindingError(HttpServletResponse response,
-	    BindingResult bindingResult, Locale locale) throws IOException {
-	response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-		messageBundle.getMessage(
-			bindingResult.getFieldError().getDefaultMessage(),
-			locale));
-    }
-
-    @ExceptionHandler({ Exception.class })
-    public void handleException(Exception exception,
-	    HttpServletResponse response, Locale locale) {
-	log.error("Exception occurs", exception);
-	try {
-	    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-		    messageBundle.getServerProblemMessage(locale));
-	} catch (IOException e) {
-	    log.fatal("Error sending exception", e);
-	}
+        log.debug("user try to logout: ");
+        session.invalidate();
     }
 
 }
