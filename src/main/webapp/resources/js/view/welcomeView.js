@@ -40,9 +40,9 @@ class WelcomeView{
 				contentType : false,
 				processData : false,
 				success: () => {
-					    window.location = "main";
+					    window.location = "main.html";
 			    },
-				error: (jqxhr, status) => {
+				error: (jqxhr) => {
 					$(".registration-message").text(extractErrorMessage(jqxhr));
 				}
 
@@ -59,9 +59,9 @@ class WelcomeView{
 				contentType : false,
 				processData : false,
 				success: () => {
-					    window.location = "main";
+					    window.location = "main.html";
 			    },
-			    error: (jqxhr, status) => {
+			    error: (jqxhr) => {
 			    	$(".log-in-message").text(extractErrorMessage(jqxhr));
 			    }
 

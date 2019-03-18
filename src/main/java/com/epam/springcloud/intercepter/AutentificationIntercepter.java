@@ -15,14 +15,15 @@ public class AutentificationIntercepter extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request,
-	    HttpServletResponse response, Object handler) throws Exception {
-	User user = (User) request.getSession().getAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME);
-	log.debug("session stored user: " + user);
-	if (user == null) {
-	    response.sendRedirect("welcome");
-	    return false;
-	}
-	return true;
+            HttpServletResponse response, Object handler) throws Exception {
+        User user = (User) request.getSession()
+                .getAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME);
+        if (user == null) {
+            log.debug("redirect user");
+            response.sendRedirect("welcome");
+            return false;
+        }
+        return true;
     }
 
 }

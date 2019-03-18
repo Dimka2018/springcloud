@@ -24,7 +24,7 @@ class MainView{
 					$(".changing-form").toggle();
 						let id = $(".changing-file-id").val();
 						$(".changing-file-id").val("");
-						$( ".file-id" ).each(function(index, value) {
+						$( ".file-id" ).each(function() {
 							  if ($(this).val() == id){
 								  let nameField = $(this).parent().parent().find(".file-name");
 								  nameField.text(file.name);
@@ -64,7 +64,7 @@ class MainView{
 				url : "user/session",
 				type : "DELETE",
 				success : () => {
-					window.location = "";
+					window.location = "welcome.html";
 				}
 			});
 		});

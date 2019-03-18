@@ -28,26 +28,24 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoggingInterceptor());
         registry.addInterceptor(new AutentificationIntercepter())
-                .addPathPatterns("/*").excludePathPatterns("/", "/welcome",
-                        "/user", "/user/session");
+                .addPathPatterns("/user/file", "user/files");
     }
-
+    
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
+    registry.addResourceHandler("/**")
+        .addResourceLocations("/");
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("welcome");
-        registry.addViewController("/welcome").setViewName("welcome");
-        registry.addViewController("/main").setViewName("main");
-    }
+        registry.addViewController( "/" ).setViewName( "forward:/welcome.html" );
 
+    }
+    
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
-        registry.jsp("/resources/html/", ".html");
+        registry.jsp("/", ".html");
     }
 
     @Bean
