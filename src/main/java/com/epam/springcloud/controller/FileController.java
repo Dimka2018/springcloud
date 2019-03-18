@@ -40,7 +40,7 @@ public class FileController {
             BindingResult bindingResult, @SessionAttribute User user,
             HttpServletResponse response, Locale locale) throws Exception {
         file.setUserId(user.getId());
-        log.debug("user try to add file: " + user + " " + file);
+        log.debug("user try to add file: " + file);
         FileToUser savedFile = null;
         if (!bindingResult.hasErrors()) {
             if (!fileDao.isFileExists(file)) {
@@ -81,7 +81,7 @@ public class FileController {
             BindingResult bindingResult, @SessionAttribute User user,
             HttpServletResponse response, Locale locale) throws Exception {
         file.setUserId(user.getId());
-        log.debug("user try to rename file: " + file);
+        log.debug("user try to delete file: " + file);
         if (!bindingResult.hasErrors()) {
             fileDao.deleteFile(file);
         } else {
@@ -108,7 +108,7 @@ public class FileController {
     @GetMapping(path = "/user/files")
     public List<FileToUser> getFileList(@SessionAttribute User user)
             throws Exception {
-        log.debug("user try to get file list: " + user);
+        log.debug("user try to get file list");
         List<FileToUser> fileList = fileDao.getFileList(user);
         log.debug("extracted number of files: "
                 + (fileList != null ? fileList.size() : "null"));

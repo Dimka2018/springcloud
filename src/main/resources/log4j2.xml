@@ -6,12 +6,12 @@
 	<Appenders>
 	
 		<Console name="Console" target="SYSTEM_OUT">
-						<PatternLayout pattern=" %d{DEFAULT} %-6level %tid %X{sessionId}{7} %C{} : %msg%n" />
+						<PatternLayout pattern=" %d{DEFAULT} %-6level %tid %X{sessionId}{7} %X{user} %C{} : %msg%n" />
 		</Console>
 
 		<RollingFile name="RollingFile" fileName="logs/app.log"
 			filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log">
-			<PatternLayout pattern=" %d{DEFAULT} %-6level %tid %X{sessionId}{7} %C{} : %msg%n" />
+			<PatternLayout pattern=" %d{DEFAULT} %-6level %tid %X{sessionId}{7} %X{user} %C{} : %msg%n" />
 			<Policies>
 				<SizeBasedTriggeringPolicy size="15 KB" />
 			</Policies>

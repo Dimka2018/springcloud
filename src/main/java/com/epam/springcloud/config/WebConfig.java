@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.epam.springcloud.intercepter.AutentificationIntercepter;
+import com.epam.springcloud.intercepter.LoggingInterceptor;
 
 /**
  * 
@@ -25,39 +26,40 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-	registry.addInterceptor(new AutentificationIntercepter())
-		.addPathPatterns("/*")
-		.excludePathPatterns("/", "/welcome", "/user", "/user/session");
+        registry.addInterceptor(new LoggingInterceptor());
+        registry.addInterceptor(new AutentificationIntercepter())
+                .addPathPatterns("/*").excludePathPatterns("/", "/welcome",
+                        "/user", "/user/session");
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-	registry.addResourceHandler("/resources/**")
-		.addResourceLocations("/resources/");
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-	registry.addViewController("/").setViewName("welcome");
-	registry.addViewController("/welcome").setViewName("welcome");
-	registry.addViewController("/main").setViewName("main");
+        registry.addViewController("/").setViewName("welcome");
+        registry.addViewController("/welcome").setViewName("welcome");
+        registry.addViewController("/main").setViewName("main");
     }
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
-	registry.jsp("/resources/html/", ".html");
+        registry.jsp("/resources/html/", ".html");
     }
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {
-	return new CommonsMultipartResolver();
+        return new CommonsMultipartResolver();
     }
 
     @Bean
     public MultipartFilter multipartFilter() {
-	MultipartFilter multipartFilter = new MultipartFilter();
-	multipartFilter.setMultipartResolverBeanName("multipartResolver");
-	return multipartFilter;
+        MultipartFilter multipartFilter = new MultipartFilter();
+        multipartFilter.setMultipartResolverBeanName("multipartResolver");
+        return multipartFilter;
     }
 
 }

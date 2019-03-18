@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.epam.springcloud.dao.UserDao;
 import com.epam.springcloud.entity.user.User;
@@ -52,8 +53,8 @@ public class SessionController {
     }
 
     @DeleteMapping(path = { "/user/session" })
-    public void deleteSession(HttpSession session) {
-        log.debug("user try to logout: ");
+    public void deleteSession(HttpSession session, @SessionAttribute User user) {
+        log.debug("user try to logout");
         session.invalidate();
     }
 
