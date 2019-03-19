@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +34,7 @@ public class FileController {
     private FileDao fileDao;
 
     @Autowired
-    private MessageBundle messageBundle;
+    private MessageSource messageSource;
 
     @PostMapping(path = { "user/file" })
     public FileToUser uploadFile(@Validated FileToUpload file,
@@ -50,7 +51,8 @@ public class FileController {
             savedFile = fileDao.saveFile(file);
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    messageBundle.getFileExistsMessage(locale));
+                    messageSource.getMessage(MessageBundle.FILE_EXISTS_MESSAGE,
+                            null, locale));
         }
         return savedFile;
     }
@@ -69,7 +71,8 @@ public class FileController {
             fileDao.renameFile(file);
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    messageBundle.getFileExistsMessage(locale));
+                    messageSource.getMessage(MessageBundle.FILE_EXISTS_MESSAGE,
+                            null, locale));
         }
         return file;
     }

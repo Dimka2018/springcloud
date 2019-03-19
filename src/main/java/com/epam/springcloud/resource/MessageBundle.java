@@ -1,8 +1,5 @@
 package com.epam.springcloud.resource;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,32 +21,5 @@ public class MessageBundle {
     public static final String INVALID_FILE_NAME_SIZE_MESSAGE = "INVALID_FILE_NAME_SIZE";
     public static final String EMPTY_FILE_CONTENT_MESSAGE = "EMPTY_FILE_CONTENT";
     public static final String INVALID_FILE_NAME_MESSAGE = "INVALID_FILE_NAME";
-
-    private static final String RESOURCE_NAME = "userPhrases";
-
-    public String getMessage(String messageType, Locale locale) {
-	return ResourceBundle.getBundle(RESOURCE_NAME, locale)
-		.getString(messageType);
-    }
-
-    public String getFileExistsMessage(Locale locale) {
-	return getMessage(FILE_EXISTS_MESSAGE, locale);
-    }
-
-    public String getUserExistsMessage(Locale locale) {
-	return getMessage(USER_EXISTS_MESSAGE, locale);
-    }
-
-    public String getServerProblemMessage(Locale locale) {
-	return getMessage(SERVER_PROBLEM_MESSAGE, locale);
-    }
-
-    public String getInvalidUserMessage(Locale locale) {
-	return getMessage(INVALID_USER_MESSAGE, locale);
-    }
-
-    public String getInvalidDataMessage(Locale locale) {
-	return getMessage(INVALID_DATA_MESSAGE, locale);
-    }
 
 }

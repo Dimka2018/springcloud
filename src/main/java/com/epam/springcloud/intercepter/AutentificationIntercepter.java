@@ -20,7 +20,7 @@ public class AutentificationIntercepter extends HandlerInterceptorAdapter {
                 .getAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME);
         if (user == null) {
             log.debug("redirect user");
-            response.sendRedirect("welcome");
+            response.sendRedirect("welcome.html");
             return false;
         }
         return true;

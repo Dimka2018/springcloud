@@ -1,8 +1,10 @@
 package com.epam.springcloud.config;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -24,25 +26,28 @@ import com.epam.springcloud.intercepter.LoggingInterceptor;
 @ComponentScan("com.epam.springcloud")
 public class WebConfig implements WebMvcConfigurer {
 
+    private static final String MESSAGE_SOURCE_NAME = "/WEB-INF/classes/userPhrases";
+    private static final String DEFAULT_ENCODING = "UTF-8";
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoggingInterceptor());
         registry.addInterceptor(new AutentificationIntercepter())
-                .addPathPatterns("/user/file", "user/files");
+                .addPathPatterns("/*").excludePathPatterns("/",
+                        "/welcome.html", "/user", "/user/session");
     }
-    
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    registry.addResourceHandler("/**")
-        .addResourceLocations("/");
+        registry.addResourceHandler("/**").addResourceLocations("/");
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController( "/" ).setViewName( "forward:/welcome.html" );
+        registry.addViewController("/").setViewName("forward:/welcome.html");
 
     }
-    
+
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         registry.jsp("/", ".html");
@@ -58,6 +63,14 @@ public class WebConfig implements WebMvcConfigurer {
         MultipartFilter multipartFilter = new MultipartFilter();
         multipartFilter.setMultipartResolverBeanName("multipartResolver");
         return multipartFilter;
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.addBasenames(MESSAGE_SOURCE_NAME);
+        messageSource.setDefaultEncoding(DEFAULT_ENCODING);
+        return messageSource;
     }
 
 }

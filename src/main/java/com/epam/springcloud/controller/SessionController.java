@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,7 +30,7 @@ public class SessionController {
     private UserDao userDao;
 
     @Autowired
-    private MessageBundle messageBundle;
+    private MessageSource messageSource;
 
     @PostMapping(path = { "/user/session" })
     public void createSession(@Validated User user,
@@ -47,7 +48,8 @@ public class SessionController {
                     registredUser);
         } else {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                    messageBundle.getInvalidUserMessage(locale));
+                    messageSource.getMessage(
+                            MessageBundle.INVALID_USER_MESSAGE, null, locale));
         }
     }
 

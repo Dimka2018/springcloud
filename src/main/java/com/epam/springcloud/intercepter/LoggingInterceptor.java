@@ -15,6 +15,8 @@ public class LoggingInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler) throws Exception {
+        MDC.put(LoggerAttributeCaretaker.SESSION_ID_KEY,
+                request.getSession().getId());
         MDC.put(LoggerAttributeCaretaker.USER_KEY, (User) request.getSession()
                 .getAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME));
         return true;

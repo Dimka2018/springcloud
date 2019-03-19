@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class UserController {
     private UserDao userDao;
 
     @Autowired
-    private MessageBundle messageBundle;
+    private MessageSource messageSource;
 
     @PostMapping(path = { "/user" })
     public void registerUser(@Validated User user, BindingResult bindingResult,
@@ -44,7 +45,8 @@ public class UserController {
                     registredUser);
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    messageBundle.getUserExistsMessage(locale));
+                    messageSource.getMessage(MessageBundle.USER_EXISTS_MESSAGE,
+                            null, locale));
         }
     }
 

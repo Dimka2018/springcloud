@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import com.epam.springcloud.resource.MessageBundle;
@@ -18,14 +19,15 @@ import lombok.extern.log4j.Log4j2;
 public class ExceptionHandler {
 
     @Autowired
-    private MessageBundle messageBundle;
+    private MessageSource messageSource;
 
     public void handleValidationException(ValidationException exception,
             HttpServletResponse response, Locale locale) {
         log.debug("validation exception occurs", exception);
         try {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    messageBundle.getMessage(exception.getMessage(), locale));
+                    messageSource.getMessage(exception.getMessage(), null,
+                            locale));
         } catch (IOException e) {
             log.fatal("Error sending exception", e);
         }
@@ -38,7 +40,9 @@ public class ExceptionHandler {
         log.error("Exception occurs", exception);
         try {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    messageBundle.getServerProblemMessage(locale));
+                    messageSource.getMessage(
+                            MessageBundle.SERVER_PROBLEM_MESSAGE, null,
+                            locale));
         } catch (IOException e) {
             log.fatal("Error sending exception", e);
         }
