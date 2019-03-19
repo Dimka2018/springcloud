@@ -27,7 +27,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Component
-@Transactional(rollbackFor = {Exception.class})
+@Transactional(rollbackFor = { Exception.class })
 public class OracleFileDao implements FileDao {
 
     private static final String SAVE_PATH = "C:\\epam\\files";
@@ -35,6 +35,7 @@ public class OracleFileDao implements FileDao {
     private static final String USER_ID_ATTRIBUTE_NAME = "userId";
     private static final String ID_ATTRIBUTE_NAME = "id";
     private static final String NAME_ATTRIBUTE_NAME = "name";
+    private static final String PATH_ATTRIBUTE_NAME = "path";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -91,7 +92,7 @@ public class OracleFileDao implements FileDao {
                 .add(Restrictions.eq(USER_ID_ATTRIBUTE_NAME, user.getId()));
         return criteria.list();
     }
-    
+
     @Override
     public void deleteFile(FileToDelete file) throws Exception {
         FileToDownload deletedFile = getUserFileById(file.getId(),
@@ -149,9 +150,15 @@ public class OracleFileDao implements FileDao {
 
     @Override
     public boolean isFileExists(FileToUpload file) throws Exception {
+        return isFilePathExists(file);
+    }
+
+    public boolean isFilePathExists(FileToUpload file) {
+        String filePath = SAVE_PATH + File.separatorChar + file.getUserId()
+                + File.separatorChar + file.getName();
         Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(FileToUser.class);
-        criteria.add(Restrictions.eq(NAME_ATTRIBUTE_NAME, file.getName())).add(
+                .createCriteria(FileToDownload.class);
+        criteria.add(Restrictions.eq(PATH_ATTRIBUTE_NAME, filePath)).add(
                 Restrictions.eq(USER_ID_ATTRIBUTE_NAME, file.getUserId()));
         return !criteria.list().isEmpty();
     }

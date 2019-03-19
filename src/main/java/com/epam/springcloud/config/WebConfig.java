@@ -52,7 +52,6 @@ public class WebConfig implements WebMvcConfigurer {
     public CommonsMultipartResolver multipartResolver() {
         return new CommonsMultipartResolver();
     }
-    
 
     @Bean
     public MultipartFilter multipartFilter() {

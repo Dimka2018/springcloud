@@ -42,16 +42,15 @@ public class FileController {
         file.setUserId(user.getId());
         log.debug("user try to add file: " + file);
         FileToUser savedFile = null;
-        if (!bindingResult.hasErrors()) {
-            if (!fileDao.isFileExists(file)) {
-                savedFile = fileDao.saveFile(file);
-            } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                        messageBundle.getFileExistsMessage(locale));
-            }
-        } else {
+        if (bindingResult.hasErrors()) {
             throw new ValidationException(
                     bindingResult.getFieldError().getDefaultMessage());
+        }
+        if (!fileDao.isFileExists(file)) {
+            savedFile = fileDao.saveFile(file);
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                    messageBundle.getFileExistsMessage(locale));
         }
         return savedFile;
     }
@@ -62,16 +61,15 @@ public class FileController {
             HttpServletResponse response, Locale locale) throws Exception {
         file.setUserId(user.getId());
         log.debug("user try to rename file: " + file);
-        if (!bindingResult.hasErrors()) {
-            if (!fileDao.isFileNameExists(file)) {
-                fileDao.renameFile(file);
-            } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                        messageBundle.getFileExistsMessage(locale));
-            }
-        } else {
+        if (bindingResult.hasErrors()) {
             throw new ValidationException(
                     bindingResult.getFieldError().getDefaultMessage());
+        }
+        if (!fileDao.isFileNameExists(file)) {
+            fileDao.renameFile(file);
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                    messageBundle.getFileExistsMessage(locale));
         }
         return file;
     }
@@ -82,13 +80,11 @@ public class FileController {
             HttpServletResponse response, Locale locale) throws Exception {
         file.setUserId(user.getId());
         log.debug("user try to delete file: " + file);
-        if (!bindingResult.hasErrors()) {
-            fileDao.deleteFile(file);
-        } else {
+        if (bindingResult.hasErrors()) {
             throw new ValidationException(
                     bindingResult.getFieldError().getDefaultMessage());
         }
-
+        fileDao.deleteFile(file);
     }
 
     @GetMapping(path = { "user/file" })
@@ -97,12 +93,11 @@ public class FileController {
             HttpServletResponse response, Locale locale) throws Exception {
         file.setUserId(user.getId());
         log.debug("User try to download file: " + file);
-        if (!bindingResult.hasErrors()) {
-            fileDao.attachBinaryFileToResponse(file, response);
-        } else {
+        if (bindingResult.hasErrors()) {
             throw new ValidationException(
                     bindingResult.getFieldError().getDefaultMessage());
         }
+        fileDao.attachBinaryFileToResponse(file, response);
     }
 
     @GetMapping(path = "/user/files")

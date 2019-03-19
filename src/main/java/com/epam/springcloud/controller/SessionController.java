@@ -36,24 +36,24 @@ public class SessionController {
             BindingResult bindingResult, HttpSession session,
             HttpServletResponse response, Locale locale) throws Exception {
         log.debug("user try to log in: " + user);
-        if (!bindingResult.hasErrors()) {
-            User registredUser = userDao.getRegistredUser(user);
-            log.debug("registred user: " + registredUser);
-            if (registredUser != null) {
-                session.setAttribute(
-                        SessionAtributeCaretaker.USER_ATTRIBUTE_NAME,
-                        registredUser);
-            } else {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                        messageBundle.getInvalidUserMessage(locale));
-            }
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException(
+                    bindingResult.getFieldError().getDefaultMessage());
+        }
+        User registredUser = userDao.getRegistredUser(user);
+        log.debug("registred user: " + registredUser);
+        if (registredUser != null) {
+            session.setAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME,
+                    registredUser);
         } else {
-            throw new ValidationException(bindingResult.getFieldError().getDefaultMessage());
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                    messageBundle.getInvalidUserMessage(locale));
         }
     }
 
     @DeleteMapping(path = { "/user/session" })
-    public void deleteSession(HttpSession session, @SessionAttribute User user) {
+    public void deleteSession(HttpSession session,
+            @SessionAttribute User user) {
         log.debug("user try to logout");
         session.invalidate();
     }

@@ -34,18 +34,17 @@ public class UserController {
             HttpServletResponse response, HttpSession session, Locale locale)
             throws Exception {
         log.debug("user try to registrate: " + user);
-        if (!bindingResult.hasErrors()) {
-            User registredUser = userDao.registrateUser(user);
-            if (registredUser != null) {
-                session.setAttribute(
-                        SessionAtributeCaretaker.USER_ATTRIBUTE_NAME,
-                        registredUser);
-            } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                        messageBundle.getUserExistsMessage(locale));
-            }
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException(
+                    bindingResult.getFieldError().getDefaultMessage());
+        }
+        User registredUser = userDao.registrateUser(user);
+        if (registredUser != null) {
+            session.setAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME,
+                    registredUser);
         } else {
-            throw new ValidationException(bindingResult.getFieldError().getDefaultMessage());
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                    messageBundle.getUserExistsMessage(locale));
         }
     }
 

@@ -10,13 +10,13 @@ import com.epam.springcloud.entity.user.User;
 import com.epam.springcloud.resource.LoggerAttributeCaretaker;
 import com.epam.springcloud.resource.SessionAtributeCaretaker;
 
-public class LoggingInterceptor  extends HandlerInterceptorAdapter{
-    
+public class LoggingInterceptor extends HandlerInterceptorAdapter {
+
     @Override
     public boolean preHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler) throws Exception {
-        MDC.put(LoggerAttributeCaretaker.SESSION_ID_KEY, request.getSession().getId());
-        MDC.put(LoggerAttributeCaretaker.USER_KEY, (User) request.getSession().getAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME));
+        MDC.put(LoggerAttributeCaretaker.USER_KEY, (User) request.getSession()
+                .getAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME));
         return true;
     }
 

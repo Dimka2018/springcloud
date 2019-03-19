@@ -21,7 +21,8 @@ public class OracleUserDao implements UserDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Transactional(isolation = Isolation.SERIALIZABLE ,rollbackFor = { Exception.class })
+    @Transactional(isolation = Isolation.SERIALIZABLE, rollbackFor = {
+            Exception.class })
     @Override
     public User registrateUser(User user) throws Exception {
         if (!isLoginExists(user.getLogin())) {
