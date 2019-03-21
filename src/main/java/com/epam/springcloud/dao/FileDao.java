@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.epam.springcloud.entity.user.User;
+import com.epam.springcloud.entity.user.UserDTO;
 import com.epam.springcloud.entity.user_file.FileToDelete;
 import com.epam.springcloud.entity.user_file.FileToUpload;
 import com.epam.springcloud.entity.user_file.FileToUser;
@@ -35,7 +35,7 @@ public interface FileDao {
      *            of user
      * @return list of files for this user
      */
-    List<FileToUser> getFileList(User user) throws Exception;
+    List<FileToUser> getFileList(UserDTO user) throws Exception;
 
     /**
      * 

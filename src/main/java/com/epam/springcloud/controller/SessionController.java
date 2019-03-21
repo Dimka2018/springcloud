@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.epam.springcloud.dao.UserDao;
-import com.epam.springcloud.entity.user.User;
+import com.epam.springcloud.entity.user.UserDTO;
 import com.epam.springcloud.resource.MessageBundle;
 import com.epam.springcloud.resource.SessionAtributeCaretaker;
 
@@ -33,7 +33,7 @@ public class SessionController {
     private MessageSource messageSource;
 
     @PostMapping(path = { "/user/session" })
-    public void createSession(@Validated User user,
+    public void createSession(@Validated UserDTO user,
             BindingResult bindingResult, HttpSession session,
             HttpServletResponse response, Locale locale) throws Exception {
         log.debug("user try to log in: " + user);
@@ -41,7 +41,7 @@ public class SessionController {
             throw new ValidationException(
                     bindingResult.getFieldError().getDefaultMessage());
         }
-        User registredUser = userDao.getRegistredUser(user);
+        UserDTO registredUser = userDao.getRegistredUser(user);
         log.debug("registred user: " + registredUser);
         if (registredUser != null) {
             session.setAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME,
@@ -55,7 +55,7 @@ public class SessionController {
 
     @DeleteMapping(path = { "/user/session" })
     public void deleteSession(HttpSession session,
-            @SessionAttribute User user) {
+            @SessionAttribute UserDTO user) {
         log.debug("user try to logout");
         session.invalidate();
     }

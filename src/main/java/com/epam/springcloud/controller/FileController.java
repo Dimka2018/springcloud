@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.epam.springcloud.dao.FileDao;
-import com.epam.springcloud.entity.user.User;
+import com.epam.springcloud.entity.user.UserDTO;
 import com.epam.springcloud.entity.user_file.FileToDelete;
 import com.epam.springcloud.entity.user_file.FileToUpload;
 import com.epam.springcloud.entity.user_file.FileToUser;
@@ -38,7 +38,7 @@ public class FileController {
 
     @PostMapping(path = { "user/file" })
     public FileToUser uploadFile(@Validated FileToUpload file,
-            BindingResult bindingResult, @SessionAttribute User user,
+            BindingResult bindingResult, @SessionAttribute UserDTO user,
             HttpServletResponse response, Locale locale) throws Exception {
         file.setUserId(user.getId());
         log.debug("user try to add file: " + file);
@@ -59,7 +59,7 @@ public class FileController {
 
     @PutMapping(path = { "user/file" })
     public FileToUser renameFile(@Validated FileToUser file,
-            BindingResult bindingResult, @SessionAttribute User user,
+            BindingResult bindingResult, @SessionAttribute UserDTO user,
             HttpServletResponse response, Locale locale) throws Exception {
         file.setUserId(user.getId());
         log.debug("user try to rename file: " + file);
@@ -79,7 +79,7 @@ public class FileController {
 
     @DeleteMapping(path = { "user/file" })
     public void deleteFile(@Validated FileToDelete file,
-            BindingResult bindingResult, @SessionAttribute User user,
+            BindingResult bindingResult, @SessionAttribute UserDTO user,
             HttpServletResponse response, Locale locale) throws Exception {
         file.setUserId(user.getId());
         log.debug("user try to delete file: " + file);
@@ -92,7 +92,7 @@ public class FileController {
 
     @GetMapping(path = { "user/file" })
     public void downloadFile(@Validated FileToDelete file,
-            BindingResult bindingResult, @SessionAttribute User user,
+            BindingResult bindingResult, @SessionAttribute UserDTO user,
             HttpServletResponse response, Locale locale) throws Exception {
         file.setUserId(user.getId());
         log.debug("User try to download file: " + file);
@@ -104,7 +104,7 @@ public class FileController {
     }
 
     @GetMapping(path = "/user/files")
-    public List<FileToUser> getFileList(@SessionAttribute User user)
+    public List<FileToUser> getFileList(@SessionAttribute UserDTO user)
             throws Exception {
         log.debug("user try to get file list");
         List<FileToUser> fileList = fileDao.getFileList(user);

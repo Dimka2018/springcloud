@@ -39,10 +39,10 @@ public class ExceptionHandler {
             HttpServletResponse response, Locale locale) {
         log.error("Exception occurs", exception);
         try {
+            String errorMessage = messageSource.getMessage(
+                    MessageBundle.SERVER_PROBLEM_MESSAGE, null, locale);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    messageSource.getMessage(
-                            MessageBundle.SERVER_PROBLEM_MESSAGE, null,
-                            locale));
+                    errorMessage);
         } catch (IOException e) {
             log.fatal("Error sending exception", e);
         }

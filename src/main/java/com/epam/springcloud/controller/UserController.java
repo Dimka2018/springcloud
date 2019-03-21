@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.epam.springcloud.dao.UserDao;
 import com.epam.springcloud.entity.user.User;
+import com.epam.springcloud.entity.user.UserDTO;
 import com.epam.springcloud.resource.MessageBundle;
 import com.epam.springcloud.resource.SessionAtributeCaretaker;
 
@@ -31,15 +32,18 @@ public class UserController {
     private MessageSource messageSource;
 
     @PostMapping(path = { "/user" })
-    public void registerUser(@Validated User user, BindingResult bindingResult,
-            HttpServletResponse response, HttpSession session, Locale locale)
-            throws Exception {
-        log.debug("user try to registrate: " + user);
+    public void registerUser(@Validated UserDTO userDTO,
+            BindingResult bindingResult, HttpServletResponse response,
+            HttpSession session, Locale locale) throws Exception {
+        log.debug("DTO from user " + userDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
                     bindingResult.getFieldError().getDefaultMessage());
         }
-        User registredUser = userDao.registrateUser(user);
+        User registredUser = new User(userDTO.getLogin(),
+                userDTO.getPassword());
+        log.debug("user to registrate " + registredUser);
+        UserDTO registredUser = userDao.registrateUser(userDTO);
         if (registredUser != null) {
             session.setAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME,
                     registredUser);

@@ -1,6 +1,7 @@
 package com.epam.springcloud.dao;
 
 import com.epam.springcloud.entity.user.User;
+import com.epam.springcloud.entity.user.UserDTO;
 
 public interface UserDao {
     /**
@@ -9,7 +10,7 @@ public interface UserDao {
      *            which you want to add to data source
      * 
      */
-    User registrateUser(User user) throws Exception;
+    UserDTO registrateUser(User user) throws Exception;
 
     /**
      * 
@@ -17,6 +18,6 @@ public interface UserDao {
      *            which you want to get
      * @return user or null if user does not exist
      */
-    User getRegistredUser(User user) throws Exception;
+    UserDTO getRegistredUser(User user) throws Exception;
 
 }

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.springcloud.dao.FileDao;
-import com.epam.springcloud.entity.user.User;
+import com.epam.springcloud.entity.user.UserDTO;
 import com.epam.springcloud.entity.user_file.FileToDelete;
 import com.epam.springcloud.entity.user_file.FileToDownload;
 import com.epam.springcloud.entity.user_file.FileToUpload;
@@ -86,7 +86,7 @@ public class OracleFileDao implements FileDao {
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
     @Override
-    public List<FileToUser> getFileList(User user) throws Exception {
+    public List<FileToUser> getFileList(UserDTO user) throws Exception {
         Criteria criteria = sessionFactory.getCurrentSession()
                 .createCriteria(FileToUser.class)
                 .add(Restrictions.eq(USER_ID_ATTRIBUTE_NAME, user.getId()));
