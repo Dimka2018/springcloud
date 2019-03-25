@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.ValidationException;
 
+import org.modelmapper.ModelMapper;
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.BindingResult;
@@ -30,27 +32,30 @@ public class UserController {
 
     @Autowired
     private MessageSource messageSource;
+    
+    @Autowired
+    private ModelMapper mapper;
 
     @PostMapping(path = { "/user" })
     public void registerUser(@Validated UserDTO userDTO,
             BindingResult bindingResult, HttpServletResponse response,
             HttpSession session, Locale locale) throws Exception {
-        log.debug("DTO from user " + userDTO);
+        log.debug("DTO from user: " + userDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
                     bindingResult.getFieldError().getDefaultMessage());
         }
-        User registredUser = new User(userDTO.getLogin(),
-                userDTO.getPassword());
-        log.debug("user to registrate " + registredUser);
-        UserDTO registredUser = userDao.registrateUser(userDTO);
+        User userToRegistrate = mapper.map(userDTO, User.class);
+        log.debug("user to registrate " + userToRegistrate);
+        User registredUser = userDao.registrateUser(userToRegistrate);
         if (registredUser != null) {
             session.setAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME,
                     registredUser);
         } else {
+            String userMessage = messageSource.getMessage(
+                    MessageBundle.USER_EXISTS_MESSAGE, null, locale);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    messageSource.getMessage(MessageBundle.USER_EXISTS_MESSAGE,
-                            null, locale));
+                    Encode.forHtml(userMessage));
         }
     }
 

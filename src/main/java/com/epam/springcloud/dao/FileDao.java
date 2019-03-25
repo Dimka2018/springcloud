@@ -4,10 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.epam.springcloud.entity.user.UserDTO;
-import com.epam.springcloud.entity.user_file.FileToDelete;
-import com.epam.springcloud.entity.user_file.FileToUpload;
-import com.epam.springcloud.entity.user_file.FileToUser;
+import com.epam.springcloud.entity.user.User;
+import com.epam.springcloud.entity.user_file.File;
 
 public interface FileDao {
     /**
@@ -16,9 +14,15 @@ public interface FileDao {
      *            which you want to test
      * @return true if file exists in data source
      */
-    boolean isFileNameExists(FileToUser file) throws Exception;
-    
-    boolean isFileExists(FileToUpload file) throws Exception;
+    boolean isFileNameExists(File file) throws Exception;
+
+    /**
+     * 
+     * @param file
+     * @return true if file already exists
+     * @throws Exception
+     */
+    boolean isFileExists(File file) throws Exception;
 
     /**
      * 
@@ -27,7 +31,7 @@ public interface FileDao {
      * 
      *            save file to data source
      */
-    FileToUser saveFile(FileToUpload file) throws Exception;
+    File saveFile(File file) throws Exception;
 
     /**
      * 
@@ -35,7 +39,7 @@ public interface FileDao {
      *            of user
      * @return list of files for this user
      */
-    List<FileToUser> getFileList(UserDTO user) throws Exception;
+    List<File> getFileList(User user) throws Exception;
 
     /**
      * 
@@ -44,7 +48,7 @@ public interface FileDao {
      * 
      *            delete target file
      */
-    void deleteFile(FileToDelete file) throws Exception;
+    void deleteFile(File file) throws Exception;
 
     /**
      * 
@@ -53,8 +57,17 @@ public interface FileDao {
      * @param newName
      *            of file
      */
-    void renameFile(FileToUser file) throws Exception;
+    void renameFile(File file) throws Exception;
 
-    void attachBinaryFileToResponse(FileToDelete file,
-	    HttpServletResponse response) throws Exception;
+    /**
+     * 
+     * @param file
+     *            to attach
+     * @param response
+     *            to attach file
+     * @throws Exception
+     *             if can't attach
+     */
+    void attachBinaryFileToResponse(File file, HttpServletResponse response)
+            throws Exception;
 }

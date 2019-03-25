@@ -1,6 +1,5 @@
 package com.epam.springcloud.dao.oracle;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -17,11 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.springcloud.dao.FileDao;
-import com.epam.springcloud.entity.user.UserDTO;
-import com.epam.springcloud.entity.user_file.FileToDelete;
-import com.epam.springcloud.entity.user_file.FileToDownload;
-import com.epam.springcloud.entity.user_file.FileToUpload;
-import com.epam.springcloud.entity.user_file.FileToUser;
+import com.epam.springcloud.entity.user.User;
+import com.epam.springcloud.entity.user_file.File;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -41,105 +37,103 @@ public class OracleFileDao implements FileDao {
     private SessionFactory sessionFactory;
 
     @Override
-    public boolean isFileNameExists(FileToUser file) throws Exception {
+    public boolean isFileNameExists(File file) throws Exception {
         Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(FileToUser.class);
-        criteria.add(Restrictions.eq(NAME_ATTRIBUTE_NAME, file.getName()))
-                .add(Restrictions.eq(USER_ID_ATTRIBUTE_NAME, file.getUserId()))
-                .add(Restrictions.not(
-                        Restrictions.eq(ID_ATTRIBUTE_NAME, file.getId())));
+                .createCriteria(File.class);
+        criteria.add(Restrictions.eq(NAME_ATTRIBUTE_NAME, file.getName())).add(
+                Restrictions.eq(USER_ID_ATTRIBUTE_NAME, file.getUserId()));
         return !criteria.list().isEmpty();
     }
 
     @Override
-    public FileToUser saveFile(FileToUpload file) throws Exception {
-        String dirPath = SAVE_PATH + File.separatorChar + file.getUserId()
-                + File.separatorChar + file.getName();
+    public File saveFile(File file) throws Exception {
+        String dirPath = SAVE_PATH + java.io.File.separatorChar
+                + file.getUserId() + java.io.File.separatorChar
+                + file.getName();
         file.setPath(dirPath);
         file.setId((Integer) sessionFactory.getCurrentSession().save(file));
         writeFileToDisk(file);
-        return new FileToUser(file);
+        return file;
     }
 
-    private void writeFileToDisk(FileToUpload file) throws Exception {
-        File dir = new File(file.getPath());
+    private void writeFileToDisk(File file) throws Exception {
+        java.io.File dir = new java.io.File(file.getPath());
         if (!dir.mkdirs()) {
             throw new Exception("Couldn't create dir: " + dir);
         }
-        try (OutputStream outputStream = new FileOutputStream(
-                file.getPath() + File.separatorChar + file.getName())) {
+        try (OutputStream outputStream = new FileOutputStream(file.getPath()
+                + java.io.File.separatorChar + file.getName())) {
             outputStream.write(file.getContent().getBytes());
             log.debug("file has been saved: " + file);
         }
     }
 
     @Transactional(readOnly = true)
-    public FileToDownload getUserFileById(Integer fileId, Integer userId)
+    public File getUserFileById(Integer fileId, Integer userId)
             throws Exception {
         Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(FileToDownload.class)
+                .createCriteria(File.class)
                 .add(Restrictions.eq(ID_ATTRIBUTE_NAME, fileId))
                 .add(Restrictions.eq(USER_ID_ATTRIBUTE_NAME, userId));
-        return (FileToDownload) criteria.uniqueResult();
+        return (File) criteria.uniqueResult();
     }
 
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
     @Override
-    public List<FileToUser> getFileList(UserDTO user) throws Exception {
+    public List<File> getFileList(User user) throws Exception {
         Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(FileToUser.class)
+                .createCriteria(File.class)
                 .add(Restrictions.eq(USER_ID_ATTRIBUTE_NAME, user.getId()));
         return criteria.list();
     }
 
     @Override
-    public void deleteFile(FileToDelete file) throws Exception {
-        FileToDownload deletedFile = getUserFileById(file.getId(),
-                file.getUserId());
-        sessionFactory.getCurrentSession().delete(file);
+    public void deleteFile(File file) throws Exception {
+        File deletedFile = sessionFactory.getCurrentSession().load(File.class,
+                file.getId());
+        sessionFactory.getCurrentSession().delete(deletedFile);
         deleteFileAtDisk(deletedFile);
 
     }
 
-    private void deleteFileAtDisk(FileToDownload file) throws Exception {
-        File path = new File(file.getPath());
+    private void deleteFileAtDisk(File file) throws Exception {
+        java.io.File path = new java.io.File(file.getPath());
         log.debug("try to clear dir: " + path);
-        File[] listFiles = path.listFiles();
-        for (File deletingFile : listFiles) {
+        java.io.File[] listFiles = path.listFiles();
+        for (java.io.File deletingFile : listFiles) {
             Files.delete(deletingFile.toPath());
         }
         Files.delete(path.toPath());
     }
 
     @Override
-    public void renameFile(FileToUser file) throws Exception {
-        FileToDownload oldFile = getUserFileById(file.getId(),
-                file.getUserId());
+    public void renameFile(File file) throws Exception {
+        File oldFile = getUserFileById(file.getId(), file.getUserId());
         log.debug("old file: " + oldFile);
+        file.setPath(oldFile.getPath());
+        sessionFactory.getCurrentSession().clear();
         sessionFactory.getCurrentSession().update(file);
         renameFileAtDisk(file, oldFile);
     }
 
-    private void renameFileAtDisk(FileToUser newFile, FileToDownload oldFile)
+    private void renameFileAtDisk(File newFile, File oldFile)
             throws Exception {
-        File oldFilePath = new File(
-                oldFile.getPath() + File.separatorChar + oldFile.getName());
-        File newFilePath = new File(
-                oldFile.getPath() + File.separatorChar + newFile.getName());
+        java.io.File oldFilePath = new java.io.File(oldFile.getPath()
+                + java.io.File.separatorChar + oldFile.getName());
+        java.io.File newFilePath = new java.io.File(oldFile.getPath()
+                + java.io.File.separatorChar + newFile.getName());
         Files.move(oldFilePath.toPath(), newFilePath.toPath());
 
     }
 
     @Override
-    public void attachBinaryFileToResponse(FileToDelete file,
+    public void attachBinaryFileToResponse(File file,
             HttpServletResponse response) throws Exception {
-        FileToDownload savedFile = getUserFileById(file.getId(),
-                file.getUserId());
+        File savedFile = getUserFileById(file.getId(), file.getUserId());
         log.debug("file extracted from db: " + savedFile);
-        Path path = new File(
-                savedFile.getPath() + File.separatorChar + savedFile.getName())
-                        .toPath();
+        Path path = new java.io.File(savedFile.getPath()
+                + java.io.File.separatorChar + savedFile.getName()).toPath();
         log.debug("try to open file at: " + path);
         byte[] content = Files.readAllBytes(path);
         response.setHeader("Content-disposition",
@@ -149,15 +143,16 @@ public class OracleFileDao implements FileDao {
     }
 
     @Override
-    public boolean isFileExists(FileToUpload file) throws Exception {
-        return isFilePathExists(file);
+    public boolean isFileExists(File file) throws Exception {
+        return isFilePathExists(file) || isFileNameExists(file);
     }
 
-    public boolean isFilePathExists(FileToUpload file) {
-        String filePath = SAVE_PATH + File.separatorChar + file.getUserId()
-                + File.separatorChar + file.getName();
+    public boolean isFilePathExists(File file) {
+        String filePath = SAVE_PATH + java.io.File.separatorChar
+                + file.getUserId() + java.io.File.separatorChar
+                + file.getName();
         Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(FileToDownload.class);
+                .createCriteria(File.class);
         criteria.add(Restrictions.eq(PATH_ATTRIBUTE_NAME, filePath)).add(
                 Restrictions.eq(USER_ID_ATTRIBUTE_NAME, file.getUserId()));
         return !criteria.list().isEmpty();

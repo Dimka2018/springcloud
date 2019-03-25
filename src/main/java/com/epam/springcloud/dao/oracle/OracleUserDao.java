@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.springcloud.dao.UserDao;
-import com.epam.springcloud.entity.user.UserDTO;
+import com.epam.springcloud.entity.user.User;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -24,7 +24,7 @@ public class OracleUserDao implements UserDao {
     @Transactional(isolation = Isolation.SERIALIZABLE, rollbackFor = {
             Exception.class })
     @Override
-    public UserDTO registrateUser(UserDTO user) throws Exception {
+    public User registrateUser(User user) throws Exception {
         if (!isLoginExists(user.getLogin())) {
             log.debug("user is not registred: " + user);
             Integer userId = (Integer) sessionFactory.getCurrentSession()
@@ -38,19 +38,19 @@ public class OracleUserDao implements UserDao {
 
     public boolean isLoginExists(String userLogin) {
         Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(UserDTO.class);
+                .createCriteria(User.class);
         criteria.add(Restrictions.eq("login", userLogin));
         return criteria.uniqueResult() != null;
     }
 
     @Transactional(readOnly = true)
     @Override
-    public UserDTO getRegistredUser(UserDTO user) throws Exception {
+    public User getRegistredUser(User user) throws Exception {
         Criteria criteria = sessionFactory.getCurrentSession()
-                .createCriteria(UserDTO.class)
+                .createCriteria(User.class)
                 .add(Restrictions.eq("login", user.getLogin()))
                 .add(Restrictions.eq("password", user.getPassword()));
-        return (UserDTO) criteria.uniqueResult();
+        return (User) criteria.uniqueResult();
 
     }
 }

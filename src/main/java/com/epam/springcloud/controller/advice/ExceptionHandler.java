@@ -6,6 +6,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ValidationException;
 
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,9 +26,10 @@ public class ExceptionHandler {
             HttpServletResponse response, Locale locale) {
         log.debug("validation exception occurs", exception);
         try {
+            String message = messageSource.getMessage(exception.getMessage(),
+                    null, locale);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    messageSource.getMessage(exception.getMessage(), null,
-                            locale));
+                    Encode.forHtml(message));
         } catch (IOException e) {
             log.fatal("Error sending exception", e);
         }
@@ -39,10 +41,10 @@ public class ExceptionHandler {
             HttpServletResponse response, Locale locale) {
         log.error("Exception occurs", exception);
         try {
-            String errorMessage = messageSource.getMessage(
+            String message = messageSource.getMessage(
                     MessageBundle.SERVER_PROBLEM_MESSAGE, null, locale);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    errorMessage);
+                    Encode.forHtml(message));
         } catch (IOException e) {
             log.fatal("Error sending exception", e);
         }

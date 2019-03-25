@@ -192,7 +192,20 @@
 			<version>1.4</version>
 		</dependency>
 
+		<!-- ENCODER -->
+		<dependency>
+			<groupId>org.owasp.encoder</groupId>
+			<artifactId>encoder</artifactId>
+			<version>1.2.2</version>
+		</dependency>
 
+
+		<!-- MODEL MAPPER -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>2.3.2</version>
+		</dependency>
 
 
 
@@ -201,7 +214,7 @@
 
 	<build>
 		<finalName>${artifactId}-${version}</finalName>
-		
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>

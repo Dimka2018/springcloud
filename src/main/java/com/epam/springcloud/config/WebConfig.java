@@ -1,5 +1,7 @@
 package com.epam.springcloud.config;
 
+import org.modelmapper.config.Configuration.AccessLevel;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.epam.springcloud.intercepter.AutentificationIntercepter;
 import com.epam.springcloud.intercepter.LoggingInterceptor;
+import com.epam.springcloud.mapper.Mapper;
 
 /**
  * 
@@ -71,6 +74,16 @@ public class WebConfig implements WebMvcConfigurer {
         messageSource.addBasenames(MESSAGE_SOURCE_NAME);
         messageSource.setDefaultEncoding(DEFAULT_ENCODING);
         return messageSource;
+    }
+
+    @Bean
+    public Mapper modelMapper() {
+        Mapper mapper = new Mapper();
+        mapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.STRICT)
+                .setFieldMatchingEnabled(true).setSkipNullEnabled(true)
+                .setFieldAccessLevel(AccessLevel.PRIVATE);
+        return mapper;
     }
 
 }

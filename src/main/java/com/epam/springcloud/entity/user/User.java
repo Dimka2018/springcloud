@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
@@ -23,6 +22,10 @@ import lombok.Data;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public User() {
+
+    }
 
     public User(String login, String password) {
         this.login = login;
