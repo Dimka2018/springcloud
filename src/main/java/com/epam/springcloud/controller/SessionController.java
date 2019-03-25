@@ -8,6 +8,7 @@ import javax.validation.ValidationException;
 
 import org.modelmapper.ModelMapper;
 import org.owasp.encoder.Encode;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.BindingResult;
@@ -20,7 +21,6 @@ import com.epam.springcloud.dao.UserDao;
 import com.epam.springcloud.entity.user.User;
 import com.epam.springcloud.entity.user.UserDTO;
 import com.epam.springcloud.resource.MessageBundle;
-import com.epam.springcloud.resource.SessionAtributeCaretaker;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -37,6 +37,9 @@ public class SessionController {
     @Autowired
     private ModelMapper mapper;
 
+    @Autowired
+    private User user;
+
     @PostMapping(path = { "/user/session" })
     public void createSession(@Validated UserDTO userDTO,
             BindingResult bindingResult, HttpSession session,
@@ -51,8 +54,8 @@ public class SessionController {
         User registredUser = userDao.getRegistredUser(checkedUser);
         log.debug("registred user: " + registredUser);
         if (registredUser != null) {
-            session.setAttribute(SessionAtributeCaretaker.USER_ATTRIBUTE_NAME,
-                    registredUser);
+            BeanUtils.copyProperties(registredUser, this.user);
+            log.debug("user in session: " + this.user);
         } else {
             String userMessage = messageSource.getMessage(
                     MessageBundle.INVALID_USER_MESSAGE, null, locale);

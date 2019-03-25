@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.epam.springcloud.dao.FileDao;
 import com.epam.springcloud.entity.user.User;
@@ -42,12 +41,15 @@ public class FileController {
     private MessageSource messageSource;
 
     @Autowired
+    private User user;
+
+    @Autowired
     private Mapper mapper;
 
     @PostMapping(path = { "user/file" })
     public FileToUserDTO uploadFile(@Validated FileUploadDTO fileDTO,
-            BindingResult bindingResult, @SessionAttribute User user,
-            HttpServletResponse response, Locale locale) throws Exception {
+            BindingResult bindingResult, HttpServletResponse response,
+            Locale locale) throws Exception {
         log.debug("DTO from user: " + fileDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -65,14 +67,13 @@ public class FileController {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                     Encode.forHtml(userMessage));
         }
-        return savedFile != null ? mapper.map(savedFile, FileToUserDTO.class)
-                : null;
+        return savedFile != null ? mapper.map(savedFile, FileToUserDTO.class) : new FileToUserDTO();
     }
 
     @PutMapping(path = { "user/file" })
     public FileToUserDTO renameFile(@Validated FileRenameDTO fileDTO,
-            BindingResult bindingResult, @SessionAttribute User user,
-            HttpServletResponse response, Locale locale) throws Exception {
+            BindingResult bindingResult, HttpServletResponse response,
+            Locale locale) throws Exception {
         log.debug("DTO from user " + fileDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -94,8 +95,8 @@ public class FileController {
 
     @DeleteMapping(path = { "user/file" })
     public void deleteFile(@Validated FileDeleteDTO fileDTO,
-            BindingResult bindingResult, @SessionAttribute User user,
-            HttpServletResponse response, Locale locale) throws Exception {
+            BindingResult bindingResult, HttpServletResponse response,
+            Locale locale) throws Exception {
         log.debug("DTO from user " + fileDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -108,8 +109,8 @@ public class FileController {
 
     @GetMapping(path = { "user/file" })
     public void downloadFile(@Validated FileDownloadDTO fileDTO,
-            BindingResult bindingResult, @SessionAttribute User user,
-            HttpServletResponse response, Locale locale) throws Exception {
+            BindingResult bindingResult, HttpServletResponse response,
+            Locale locale) throws Exception {
         log.debug("DTO from user: " + fileDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -122,8 +123,7 @@ public class FileController {
     }
 
     @GetMapping(path = "/user/files")
-    public List<FileToUserDTO> getFileList(@SessionAttribute User user)
-            throws Exception {
+    public List<FileToUserDTO> getFileList() throws Exception {
         log.debug("user try to get file list");
         List<File> fileList = fileDao.getFileList(user);
         log.debug("extracted number of files: "

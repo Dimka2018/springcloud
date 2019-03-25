@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import lombok.Data;
 
 @Data
-@Scope("prototype")
+@SessionScope
 @Component
 @Entity
 @Table(name = "CLIENT")

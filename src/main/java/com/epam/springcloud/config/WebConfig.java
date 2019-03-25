@@ -34,8 +34,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoggingInterceptor());
-        registry.addInterceptor(new AutentificationIntercepter())
+        registry.addInterceptor(loggingInterceptor());
+        registry.addInterceptor(autentificationIntercepter())
                 .addPathPatterns("/*").excludePathPatterns("/",
                         "/welcome.html", "/user", "/user/session");
     }
@@ -84,6 +84,16 @@ public class WebConfig implements WebMvcConfigurer {
                 .setFieldMatchingEnabled(true).setSkipNullEnabled(true)
                 .setFieldAccessLevel(AccessLevel.PRIVATE);
         return mapper;
+    }
+    
+    @Bean
+    public LoggingInterceptor loggingInterceptor() {
+        return new LoggingInterceptor();
+    }
+    
+    @Bean
+    public AutentificationIntercepter autentificationIntercepter() {
+        return new AutentificationIntercepter();
     }
 
 }
