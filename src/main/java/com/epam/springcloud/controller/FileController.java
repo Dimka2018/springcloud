@@ -1,14 +1,12 @@
 package com.epam.springcloud.controller;
 
+import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ValidationException;
 
-import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +24,6 @@ import com.epam.springcloud.entity.user_file.FileRenameDTO;
 import com.epam.springcloud.entity.user_file.FileToUserDTO;
 import com.epam.springcloud.entity.user_file.FileUploadDTO;
 import com.epam.springcloud.mapper.Mapper;
-import com.epam.springcloud.resource.MessageBundle;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -38,9 +35,6 @@ public class FileController {
     private FileDao fileDao;
 
     @Autowired
-    private MessageSource messageSource;
-
-    @Autowired
     private User user;
 
     @Autowired
@@ -48,8 +42,7 @@ public class FileController {
 
     @PostMapping(path = { "user/file" })
     public FileToUserDTO uploadFile(@Validated FileUploadDTO fileDTO,
-            BindingResult bindingResult, HttpServletResponse response,
-            Locale locale) throws Exception {
+            BindingResult bindingResult) throws Exception {
         log.debug("DTO from user: " + fileDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -59,21 +52,17 @@ public class FileController {
         file.setUserId(user.getId());
         log.debug("mapped file: " + file);
         File savedFile = null;
-        if (!fileDao.isFileExists(file)) {
-            savedFile = fileDao.saveFile(file);
-        } else {
-            String userMessage = messageSource.getMessage(
-                    MessageBundle.FILE_EXISTS_MESSAGE, null, locale);
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    Encode.forHtml(userMessage));
+        if (fileDao.isFileExists(file)) {
+            throw new FileAlreadyExistsException(
+                    "file already exists: " + file);
         }
-        return savedFile != null ? mapper.map(savedFile, FileToUserDTO.class) : new FileToUserDTO();
+        savedFile = fileDao.saveFile(file);
+        return mapper.map(savedFile, FileToUserDTO.class);
     }
 
     @PutMapping(path = { "user/file" })
     public FileToUserDTO renameFile(@Validated FileRenameDTO fileDTO,
-            BindingResult bindingResult, HttpServletResponse response,
-            Locale locale) throws Exception {
+            BindingResult bindingResult) throws Exception {
         log.debug("DTO from user " + fileDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -82,21 +71,17 @@ public class FileController {
         File file = mapper.map(fileDTO, File.class);
         file.setUserId(user.getId());
         log.debug("mapped file: " + file);
-        if (!fileDao.isFileNameExists(file)) {
-            fileDao.renameFile(file);
-        } else {
-            String userMessage = messageSource.getMessage(
-                    MessageBundle.FILE_EXISTS_MESSAGE, null, locale);
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                    Encode.forHtml(userMessage));
+        if (fileDao.isFileNameExists(file)) {
+            throw new FileAlreadyExistsException(
+                    "file already exists: " + file);
         }
+        fileDao.renameFile(file);
         return new FileToUserDTO(file.getId(), file.getName());
     }
 
     @DeleteMapping(path = { "user/file" })
     public void deleteFile(@Validated FileDeleteDTO fileDTO,
-            BindingResult bindingResult, HttpServletResponse response,
-            Locale locale) throws Exception {
+            BindingResult bindingResult) throws Exception {
         log.debug("DTO from user " + fileDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -109,8 +94,8 @@ public class FileController {
 
     @GetMapping(path = { "user/file" })
     public void downloadFile(@Validated FileDownloadDTO fileDTO,
-            BindingResult bindingResult, HttpServletResponse response,
-            Locale locale) throws Exception {
+            BindingResult bindingResult, HttpServletResponse response)
+            throws Exception {
         log.debug("DTO from user: " + fileDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
