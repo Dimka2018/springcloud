@@ -10,14 +10,17 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.epam.springcloud.exception.UserAlreadyExistsException;
 import com.epam.springcloud.exception.UserNotFoundException;
 import com.epam.springcloud.resource.MessageBundle;
 
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
+@ResponseBody
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
@@ -25,7 +28,7 @@ public class ControllerExceptionHandler {
     private MessageSource messageSource;
 
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    @ExceptionHandler({ValidationException.class})
+    @ExceptionHandler(ValidationException.class)
     public Exception handleValidationException(ValidationException exception,
             Locale locale) {
         log.debug("validation exception occurs", exception);
@@ -35,9 +38,9 @@ public class ControllerExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler({UserNotFoundException.class})
-    public Exception handleUserExistsException(UserNotFoundException exception,
-            Locale locale) {
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public Exception handleUserExistsException(
+            UserAlreadyExistsException exception, Locale locale) {
         log.debug("user not found exception", exception);
         String message = messageSource.getMessage(
                 MessageBundle.USER_EXISTS_MESSAGE, null, null, locale);
@@ -45,7 +48,7 @@ public class ControllerExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler({FileAlreadyExistsException.class})
+    @ExceptionHandler(FileAlreadyExistsException.class)
     public Exception handleFileExistsException(
             FileAlreadyExistsException exception, Locale locale) {
         log.debug("file already exists exception occurs", exception);
@@ -55,17 +58,17 @@ public class ControllerExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler({UserNotFoundException.class})
+    @ExceptionHandler(UserNotFoundException.class)
     public Exception handleUserNotFoundException(
             UserNotFoundException exception, Locale locale) {
         log.debug("user not found", exception);
         String message = messageSource.getMessage(
-                MessageBundle.USER_EXISTS_MESSAGE, null, null, locale);
+                MessageBundle.INVALID_USER_MESSAGE, null, null, locale);
         return new Exception(message);
     }
-    
+
     @ResponseStatus()
-    @ExceptionHandler({Exception.class})
+    @ExceptionHandler(Exception.class)
     public Exception handleServerProblemException(Exception exception,
             Locale locale) {
         log.error("Exception occurs", exception);

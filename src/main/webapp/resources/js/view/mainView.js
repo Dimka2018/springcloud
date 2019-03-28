@@ -9,7 +9,6 @@ class MainView {
         var context = this;
         refreshFileList();
 
-
         $(".change-save-button").click(() => {
             $(".changing-form-send-button").click();
         });
@@ -31,8 +30,8 @@ class MainView {
                         }
                     });
                 },
-                error: (jqxhr) => {
-                    openMessageWindow(extractErrorMessage(jqxhr));
+                error: (exception) => {
+                    openMessageWindow(exception.responseJSON.message);
                 }
             });
         });
@@ -93,11 +92,16 @@ class MainView {
                     return xhr;
                 },
                 success: (file) => {
+                    context.uploadingBox.refresh();
+                    console.log($(".uploading-file"));
+                    $(".uploading-file").val("");
                     context.uploadingBox.setText("Uploaded");
-                    addUserFile(file.id, file.name)
+                    addUserFile(file.id, file.name);
                 },
-                error: (jqxhr) => {
-                    openMessageWindow(extractErrorMessage(jqxhr));
+                error: (exception) => {
+                    context.uploadingBox.refresh();
+                    $(".uploading-file").val("");
+                    openMessageWindow(exception.responseJSON.message);
                 }
             });
 
@@ -113,8 +117,8 @@ class MainView {
                         addUserFile(file.id, file.name);
                     }
                 },
-                error: (jqxhr) => {
-                    openMessageWindow(extractErrorMessage(jqxhr));
+                error: (exception) => {
+                    openMessageWindow(exception.responseJSON.message);
                 }
             });
         }
@@ -142,10 +146,9 @@ class MainView {
                     type: "DELETE",
                     success: () => {
                         file.remove();
-                        uploadingBox.refresh();
                     },
-                    error: (jqxhr) => {
-                        openMessageWindow(extractErrorMessage(jqxhr));
+                    error: (exception) => {
+                        openMessageWindow(exception.responseJSON.message);
                     }
                 });
 
@@ -164,16 +167,10 @@ class MainView {
             $(".message-modal-window").toggle();
         }
 
-        function extractErrorMessage(jqxhr) {
-            let startPattern = "Message</b> ";
-            let startPosition = jqxhr.responseText.indexOf(startPattern) + startPattern.length;
-            let endPosition = jqxhr.responseText.indexOf("</p><p><b>Description");
-            console.log(startPosition);
-            console.log(endPosition);
-            return jqxhr.responseText.substring(startPosition, endPosition);
-        }
+    }
 
-
+    refreshUploadingInput() {
+        $(".uploading-file").files = undefined;
     }
 
     clearUploadingForm() {

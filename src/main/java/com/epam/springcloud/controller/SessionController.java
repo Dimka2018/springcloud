@@ -49,11 +49,10 @@ public class SessionController {
                     "user does not exist: " + checkedUser);
         }
         BeanUtils.copyProperties(registredUser, this.user);
-        throw new Exception("test");
     }
 
     @DeleteMapping(path = { "/user/session" })
-    public void deleteSession(HttpSession session) {
+    public void deleteSession(HttpSession session) throws Exception {
         log.debug("user try to logout");
         session.invalidate();
     }
