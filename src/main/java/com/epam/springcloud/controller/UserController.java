@@ -33,6 +33,7 @@ public class UserController {
     @PostMapping(path = { "/user" })
     public void registerUser(@Validated UserDTO userDTO,
             BindingResult bindingResult) throws Exception {
+        log.debug("user trys to registrate");
         log.debug("DTO from user: " + userDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -45,7 +46,10 @@ public class UserController {
             throw new UserAlreadyExistsException(
                     "user already exists: " + userToRegistrate);
         }
+        log.debug("user has been registred: " + registredUser);
+        log.debug("loggining in user: " + registredUser);
         BeanUtils.copyProperties(registredUser, user);
+        log.debug("user has been loggining in: " + registredUser);
     }
 
 }

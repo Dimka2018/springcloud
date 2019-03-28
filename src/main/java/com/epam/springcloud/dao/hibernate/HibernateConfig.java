@@ -31,6 +31,8 @@ public class HibernateConfig {
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect",
                 "org.hibernate.dialect.Oracle10gDialect");
+        properties.setProperty("hibernate.connection.characterEncoding",
+                "UTF-8");
         return properties;
     }
 

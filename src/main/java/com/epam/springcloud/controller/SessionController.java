@@ -35,6 +35,7 @@ public class SessionController {
     @PostMapping(path = { "/user/session" })
     public void createSession(@Validated UserDTO userDTO,
             BindingResult bindingResult) throws Exception {
+        log.debug("user trys to log in");
         log.debug("DTO from user: " + userDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -49,6 +50,7 @@ public class SessionController {
                     "user does not exist: " + checkedUser);
         }
         BeanUtils.copyProperties(registredUser, this.user);
+        log.debug("user has been loggining: " + registredUser);
     }
 
     @DeleteMapping(path = { "/user/session" })

@@ -1,6 +1,7 @@
 package com.epam.springcloud.controller;
 
 import java.nio.file.FileAlreadyExistsException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -43,6 +44,7 @@ public class FileController {
     @PostMapping(path = { "user/file" })
     public FileToUserDTO uploadFile(@Validated FileUploadDTO fileDTO,
             BindingResult bindingResult) throws Exception {
+        log.debug("user trys to upload file");
         log.debug("DTO from user: " + fileDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -57,12 +59,14 @@ public class FileController {
                     "file already exists: " + file);
         }
         savedFile = fileDao.saveFile(file);
+        log.debug("file has been saved: " + file);
         return mapper.map(savedFile, FileToUserDTO.class);
     }
 
     @PutMapping(path = { "user/file" })
     public FileToUserDTO renameFile(@Validated FileRenameDTO fileDTO,
             BindingResult bindingResult) throws Exception {
+        log.debug("user trys to rename file");
         log.debug("DTO from user " + fileDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -76,12 +80,14 @@ public class FileController {
                     "file already exists: " + file);
         }
         fileDao.renameFile(file);
+        log.debug("file has been renamed: " + file);
         return new FileToUserDTO(file.getId(), file.getName());
     }
 
     @DeleteMapping(path = { "user/file" })
     public void deleteFile(@Validated FileDeleteDTO fileDTO,
             BindingResult bindingResult) throws Exception {
+        log.debug("user trys to delete file");
         log.debug("DTO from user " + fileDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -90,12 +96,14 @@ public class FileController {
         File file = mapper.map(fileDTO, File.class);
         file.setUserId(user.getId());
         fileDao.deleteFile(file);
+        log.debug("file has been deleted: " + file);
     }
 
     @GetMapping(path = { "user/file" })
     public void downloadFile(@Validated FileDownloadDTO fileDTO,
             BindingResult bindingResult, HttpServletResponse response)
             throws Exception {
+        log.debug("user trys to download file");
         log.debug("DTO from user: " + fileDTO);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(
@@ -105,14 +113,15 @@ public class FileController {
         file.setUserId(user.getId());
         log.debug("mapped file: " + file);
         fileDao.attachBinaryFileToResponse(file, response);
+        log.debug("file has been attached to response: " + file);
     }
 
     @GetMapping(path = "/user/files")
     public List<FileToUserDTO> getFileList() throws Exception {
         log.debug("user try to get file list");
-        List<File> fileList = fileDao.getFileList(user);
-        log.debug("extracted number of files: "
-                + (fileList != null ? fileList.size() : "null"));
+        List<File> fileList = new ArrayList<>();
+        fileList.addAll(fileDao.getFileList(user));
+        log.debug("extracted number of files: " + fileList.size());
         return mapper.mapAll(fileList, FileToUserDTO.class);
     }
 }

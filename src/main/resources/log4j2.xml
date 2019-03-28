@@ -22,6 +22,10 @@
 
 
 	<Loggers>
+        <Logger name="org.hibernate.SQL" additivity="false" level="debug">
+            <AppenderRef ref="Console"  level="debug"/>
+			<AppenderRef ref="RollingFile" level="debug" />
+        </Logger>
 		<Root level="trace">
 			<AppenderRef ref="Console"  level="debug"/>
 			<AppenderRef ref="RollingFile" level="debug" />

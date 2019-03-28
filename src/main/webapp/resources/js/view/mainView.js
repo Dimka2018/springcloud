@@ -17,7 +17,7 @@ class MainView {
         $(".changing-form").submit(function (event) {
             event.preventDefault();
             $.ajax({
-                url: "user/file?id=" + $(".changing-file-id").val() + "&name=" + $(".changing-name").val(),
+                url: encodeURI("user/file?id=" + $(".changing-file-id").val() + "&name=" + $(".changing-name").val()),
                 type: "PUT",
                 success: (file) => {
                     $(".changing-form").toggle();
