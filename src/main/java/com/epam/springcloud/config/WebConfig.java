@@ -31,13 +31,14 @@ public class WebConfig implements WebMvcConfigurer {
 
     private static final String MESSAGE_SOURCE_NAME = "/WEB-INF/classes/userPhrases";
     private static final String DEFAULT_ENCODING = "UTF-8";
+    private static final String[] UNAUTHORIZED_PAGES = {"/", "/welcome.html", "/user", "/user/session"};
+    private static final String FORWARD_COMMAND = "forward:/welcome.html";
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loggingInterceptor());
         registry.addInterceptor(autentificationIntercepter())
-                .addPathPatterns("/*").excludePathPatterns("/",
-                        "/welcome.html", "/user", "/user/session");
+                .addPathPatterns("/*").excludePathPatterns(UNAUTHORIZED_PAGES);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/welcome.html");
+        registry.addViewController("/").setViewName(FORWARD_COMMAND);
 
     }
 

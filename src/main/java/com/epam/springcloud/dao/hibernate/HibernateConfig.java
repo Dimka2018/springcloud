@@ -16,23 +16,29 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class HibernateConfig {
 
+    private static final String DRIVER_CLASS_NAME = "oracle.jdbc.OracleDriver";
+    private static final String DIALECT = "org.hibernate.dialect.Oracle10gDialect";
+    private static final String ENCODING = "UTF-8";
+    private static final String DB_URL = "jdbc:oracle:thin:SKYCLOUD@//localhost:1521/xe";
+    private static final String DB_USER = "SKYCLOUD";
+    private static final String DB_PASS = "root";
+
     @Bean
     public BasicDataSource basicDataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("oracle.jdbc.OracleDriver");
-        dataSource.setUrl("jdbc:oracle:thin:SKYCLOUD@//localhost:1521/xe");
-        dataSource.setUsername("SKYCLOUD");
-        dataSource.setPassword("root");
+        dataSource.setDriverClassName(DRIVER_CLASS_NAME);
+        dataSource.setUrl(DB_URL);
+        dataSource.setUsername(DB_USER);
+        dataSource.setPassword(DB_PASS);
         return dataSource;
     }
 
     @Bean("hibernateProperties")
     public Properties hibernateProperty() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect",
-                "org.hibernate.dialect.Oracle10gDialect");
+        properties.setProperty("hibernate.dialect", DIALECT);
         properties.setProperty("hibernate.connection.characterEncoding",
-                "UTF-8");
+                ENCODING);
         return properties;
     }
 
