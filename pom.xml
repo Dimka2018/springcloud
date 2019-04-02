@@ -6,7 +6,7 @@
 	<artifactId>springcloud</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SpringCloud</name>
+	<name>cloud</name>
 	<url>http://maven.apache.org</url>
 
 
@@ -223,7 +223,7 @@
 				<configuration>
 					<url>http://localhost:8081/manager/text</url>
 					<server>TomcatServer</server>
-					<path>/springcloud</path>
+					<path>/cloud</path>
 					<username>admin</username>
 					<password>root</password>
 				</configuration>

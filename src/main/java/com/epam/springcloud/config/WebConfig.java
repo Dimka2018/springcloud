@@ -22,7 +22,7 @@ import com.epam.springcloud.mapper.Mapper;
 
 /**
  * 
- * @author Dmitry Plotnikov Servlet-context.xml analog javaconfig
+ * @author Dmitry Plotnikov Servlet-context.xml analog of javaconfig
  */
 @Configuration
 @EnableWebMvc
@@ -31,7 +31,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     private static final String MESSAGE_SOURCE_NAME = "/WEB-INF/classes/userPhrases";
     private static final String DEFAULT_ENCODING = "UTF-8";
-    private static final String[] UNAUTHORIZED_PAGES = {"/", "/welcome.html", "/user", "/user/session"};
+    private static final String[] UNAUTHORIZED_PAGES = { "/", "/welcome.html",
+            "/user", "/user/session" };
     private static final String FORWARD_COMMAND = "forward:/welcome.html";
 
     @Override
@@ -86,12 +87,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .setFieldAccessLevel(AccessLevel.PRIVATE);
         return mapper;
     }
-    
+
     @Bean
     public LoggingInterceptor loggingInterceptor() {
         return new LoggingInterceptor();
     }
-    
+
     @Bean
     public AutentificationIntercepter autentificationIntercepter() {
         return new AutentificationIntercepter();

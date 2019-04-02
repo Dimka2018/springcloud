@@ -13,6 +13,8 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class AutentificationIntercepter extends HandlerInterceptorAdapter {
 
+    private static final String REDIRECT_PAGE = "welcome.html";
+
     @Autowired
     private User user;
 
@@ -22,7 +24,7 @@ public class AutentificationIntercepter extends HandlerInterceptorAdapter {
         log.debug("filtred user: " + user);
         if (user == null) {
             log.debug("redirect user");
-            response.sendRedirect("welcome.html");
+            response.sendRedirect(REDIRECT_PAGE);
             return false;
         }
         return true;

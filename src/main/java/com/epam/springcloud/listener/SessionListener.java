@@ -13,10 +13,11 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @WebListener
 public class SessionListener implements HttpSessionListener {
-    
+
     @Override
     public void sessionCreated(HttpSessionEvent sessionEvent) {
-        MDC.put(LoggerAttributeCaretaker.SESSION_ID_KEY, sessionEvent.getSession().getId());
+        MDC.put(LoggerAttributeCaretaker.SESSION_ID_KEY,
+                sessionEvent.getSession().getId());
         log.debug("session create");
     }
 
