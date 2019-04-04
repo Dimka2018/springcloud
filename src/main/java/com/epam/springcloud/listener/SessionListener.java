@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSessionListener;
 
 import org.jboss.logging.MDC;
 
-import com.epam.springcloud.resource.LoggerAttributeCaretaker;
+import com.epam.springcloud.resource.LoggerAttribute;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -16,7 +16,7 @@ public class SessionListener implements HttpSessionListener {
 
     @Override
     public void sessionCreated(HttpSessionEvent sessionEvent) {
-        MDC.put(LoggerAttributeCaretaker.SESSION_ID_KEY,
+        MDC.put(LoggerAttribute.SESSION_ID_KEY,
                 sessionEvent.getSession().getId());
         log.debug("session create");
     }

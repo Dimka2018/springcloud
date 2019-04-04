@@ -3,7 +3,7 @@ package com.epam.springcloud.resource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MessageBundle {
+public class MessageKey {
 
     public static final String INVALID_USER_MESSAGE = "INVALID_USER_MESSAGE";
     public static final String SERVER_PROBLEM_MESSAGE = "SERVER_PROBLEM_MESSAGE";
@@ -22,7 +22,7 @@ public class MessageBundle {
     public static final String EMPTY_FILE_CONTENT_MESSAGE = "EMPTY_FILE_CONTENT";
     public static final String INVALID_FILE_NAME_MESSAGE = "INVALID_FILE_NAME";
 
-    private MessageBundle() {
+    private MessageKey() {
 
     }
 

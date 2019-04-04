@@ -93,14 +93,13 @@ class MainView {
                 },
                 success: (file) => {
                     context.uploadingBox.refresh();
-                    console.log($(".uploading-file"));
-                    $(".uploading-file").val("");
+                    context.refreshUploadingInput();
                     context.uploadingBox.setText("Uploaded");
                     addUserFile(file.id, file.name);
                 },
                 error: (exception) => {
                     context.uploadingBox.refresh();
-                    $(".uploading-file").val("");
+                    context.refreshUploadingInput();
                     openMessageWindow(exception.responseJSON.message);
                 }
             });
@@ -170,7 +169,9 @@ class MainView {
     }
 
     refreshUploadingInput() {
-        $(".uploading-file").files = undefined;
+    	let input = $(".uploading-file");
+    	input.val("");
+        input.files = undefined;
     }
 
     clearUploadingForm() {

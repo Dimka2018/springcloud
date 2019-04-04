@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.epam.springcloud.exception.UserAlreadyExistsException;
 import com.epam.springcloud.exception.UserNotFoundException;
-import com.epam.springcloud.resource.MessageBundle;
+import com.epam.springcloud.resource.MessageKey;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -43,7 +43,7 @@ public class ControllerExceptionHandler {
             UserAlreadyExistsException exception, Locale locale) {
         log.debug("user not found exception", exception);
         String message = messageSource.getMessage(
-                MessageBundle.USER_EXISTS_MESSAGE, null, null, locale);
+                MessageKey.USER_EXISTS_MESSAGE, null, null, locale);
         return new Exception(message);
     }
 
@@ -53,7 +53,7 @@ public class ControllerExceptionHandler {
             FileAlreadyExistsException exception, Locale locale) {
         log.debug("file already exists exception occurs", exception);
         String message = messageSource.getMessage(
-                MessageBundle.FILE_EXISTS_MESSAGE, null, null, locale);
+                MessageKey.FILE_EXISTS_MESSAGE, null, null, locale);
         return new Exception(message);
     }
 
@@ -63,7 +63,7 @@ public class ControllerExceptionHandler {
             UserNotFoundException exception, Locale locale) {
         log.debug("user not found", exception);
         String message = messageSource.getMessage(
-                MessageBundle.INVALID_USER_MESSAGE, null, null, locale);
+                MessageKey.INVALID_USER_MESSAGE, null, null, locale);
         return new Exception(message);
     }
 
@@ -73,7 +73,7 @@ public class ControllerExceptionHandler {
             Locale locale) {
         log.error("Exception occurs", exception);
         String message = messageSource.getMessage(
-                MessageBundle.SERVER_PROBLEM_MESSAGE, null, null, locale);
+                MessageKey.SERVER_PROBLEM_MESSAGE, null, null, locale);
         return new Exception(message);
     }
 

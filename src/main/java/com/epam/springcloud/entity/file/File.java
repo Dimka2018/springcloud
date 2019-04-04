@@ -1,4 +1,4 @@
-package com.epam.springcloud.entity.user_file;
+package com.epam.springcloud.entity.file;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

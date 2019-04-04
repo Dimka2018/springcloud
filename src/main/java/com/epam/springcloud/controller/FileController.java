@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.epam.springcloud.dao.FileDao;
+import com.epam.springcloud.entity.file.File;
+import com.epam.springcloud.entity.file.FileDeleteDTO;
+import com.epam.springcloud.entity.file.FileDownloadDTO;
+import com.epam.springcloud.entity.file.FileRenameDTO;
+import com.epam.springcloud.entity.file.FileToUserDTO;
+import com.epam.springcloud.entity.file.FileUploadDTO;
 import com.epam.springcloud.entity.user.User;
-import com.epam.springcloud.entity.user_file.File;
-import com.epam.springcloud.entity.user_file.FileDeleteDTO;
-import com.epam.springcloud.entity.user_file.FileDownloadDTO;
-import com.epam.springcloud.entity.user_file.FileRenameDTO;
-import com.epam.springcloud.entity.user_file.FileToUserDTO;
-import com.epam.springcloud.entity.user_file.FileUploadDTO;
 import com.epam.springcloud.mapper.Mapper;
 
 import lombok.extern.log4j.Log4j2;

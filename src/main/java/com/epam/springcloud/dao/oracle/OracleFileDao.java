@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.springcloud.dao.FileDao;
+import com.epam.springcloud.entity.file.File;
 import com.epam.springcloud.entity.user.User;
-import com.epam.springcloud.entity.user_file.File;
 
 import lombok.extern.log4j.Log4j2;
 

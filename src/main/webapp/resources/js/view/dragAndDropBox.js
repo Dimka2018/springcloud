@@ -49,7 +49,7 @@ class DragAndDropBox{
 	}
 	
 	refresh(){
-		this.savedFiles = undefined;
+		this.savedFile = undefined;
 		this.textFrame.text("File upload");
 	}
 	

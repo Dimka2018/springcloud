@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.epam.springcloud.entity.file.File;
 import com.epam.springcloud.entity.user.User;
-import com.epam.springcloud.entity.user_file.File;
 
 public interface FileDao {
     /**
