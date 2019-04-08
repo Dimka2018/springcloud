@@ -3,7 +3,9 @@ package com.epam.springcloud.entity.file;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -17,7 +19,7 @@ import lombok.Data;
 @Scope("prototype")
 @Component
 @Entity
-@Table(name = "USERFILE")
+@Table(name = "USERFILE", schema = "SKYCLOUD")
 public class File {
 
     public File() {
@@ -42,7 +44,8 @@ public class File {
     }
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERFILE_SEQ")
+    @SequenceGenerator(name="USERFILE_SEQ", sequenceName="USERFILE_SEQ", allocationSize=1)
     @Column(name = "ID")
     private Integer id;
 

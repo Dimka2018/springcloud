@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ import lombok.Data;
 @SessionScope
 @Component
 @Entity
-@Table(name = "CLIENT")
+@Table(name = "CLIENT",  schema="SKYCLOUD")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,7 +34,8 @@ public class User implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CLIENT_SEQ")
+    @SequenceGenerator(name="CLIENT_SEQ", sequenceName="CLIENT_SEQ", allocationSize=1)
     @Column(name = "ID")
     private Integer id;
 
