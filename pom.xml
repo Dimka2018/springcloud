@@ -223,7 +223,7 @@
 				<configuration>
 					<url>http://localhost:8081/manager/text</url>
 					<server>TomcatServer</server>
-					<path>/springcloud</path>
+					<path>/cc</path>
 					<username>admin</username>
 					<password>root</password>
 				</configuration>

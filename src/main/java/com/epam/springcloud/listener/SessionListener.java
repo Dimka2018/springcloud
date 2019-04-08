@@ -24,6 +24,8 @@ public class SessionListener implements HttpSessionListener {
     @Override
     public void sessionDestroyed(HttpSessionEvent sessionEvent) {
         log.debug("session destroy");
+        MDC.put(LoggerAttribute.SESSION_ID_KEY, null);
+        MDC.put(LoggerAttribute.USER_KEY, null);
     }
 
 }
