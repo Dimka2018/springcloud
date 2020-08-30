@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Resource name="jdbc/oracleDataSource" auth="Container"
-	type="javax.sql.DataSource" driverClassName="oracle.jdbc.OracleDriver"
-	url="jdbc:oracle:thin:SKYCLOUD@//localhost:1521/xe" username="SKYCLOUD"
-	password="root" maxTotal="5" maxIdle="2" maxWaitMillis="500"
-	removeAbandonedOnBorrow="true" removeAbandonedTimeout="500" />
