@@ -1,0 +1,7 @@
+file.save.path:
+# Oracle
+spring.datasource.url: jdbc:oracle:thin:@localhost:1521:orcl
+spring.datasource.username: dbuser
+spring.datasource.password: dbpass
+spring.datasource.driver-class-name: oracle.jdbc.OracleDriver
+spring.jpa.database-platform: org.hibernate.dialect.Oracle10gDialect

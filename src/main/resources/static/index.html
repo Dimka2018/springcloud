@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" content="no-cache" />
+  <title>Welcome page</title>
+  <link rel="stylesheet" href="resources/css/welcome.css"/>
+</head>
+
+<body>
+  <form class="log-in-form form">
+    <span class="form-header">LOG IN</span>
+    <input name="login" class="welcome-input enter-login" type="text" maxlength="30" placeholder="enter login" required />
+	<input name="password" class="welcome-input enter-password" type="password" maxlength="30" placeholder="enter password" required />
+	<span class="log-in-message message"></span>
+	<input class="form-button" type="submit" value="log in" />
+	<a class="registration-link link" href="">Don't register?<br/>Click here!!!</a>
+  </form>
+  
+  <form class="registration-form form">
+    <span class="form-header">REGISTRATION</span>
+    <input name="login" class="welcome-input registration-login" type="text" maxlength="30" placeholder="enter login" required />
+	<input name="password" class="welcome-input registration-password" type="password" maxlength="30" placeholder="enter password" required />
+	<span class="registration-message message"></span>
+	<input class="form-button" type="submit" value="registrate" />
+	<a class="log-in-link link" href="">Have account?<br/>Click here!!!</a>
+  </form>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="resources/js/view/welcomeView.js"></script>
+</body>
+</html>

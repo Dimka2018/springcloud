@@ -1,0 +1,91 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" content="no-cache" />
+    <title>Main page</title>
+    <link rel="stylesheet" href="resources/css/main.css" />
+    <link rel="stylesheet" href="resources/css/modal.css" />
+    <link rel="stylesheet" href="resources/css/message.css" />
+    <link rel="stylesheet" href="resources/font-awesome-4.7.0/css/font-awesome.min.css" />
+</head>
+
+<body>
+    <div class="message-modal-window invisible">
+        <div class="message">
+            <div class="message-image-container">
+                <img src="resources/images/whiteRhombus.svg" class="white-rhombus" />
+                <label class="message-close-button">
+                    <i class="fa fa-window-close" aria-hidden="true"></i>
+                </label>
+            </div>
+            <span class="message-text"></span>
+            <div class="message-image-container">
+                <img src="resources/images/whiteRhombus.svg" class="white-rhombus" />
+                <img src="resources/images/whiteRhombus.svg" class="white-rhombus" />
+            </div>
+        </div>
+    </div>
+    <form class="changing-form invisible">
+        <div class="changing-container">
+            <input name="id" type="text" class="changing-file-id invisible" />
+            <input name="name" class="changing-name" type="text" maxlength="250" required />
+            <label class="change-save-button">Save</label>
+            <label class="change-cancel-button">Cancel</label>
+            <input class="changing-form-send-button" type="submit" />
+        </div>
+    </form>
+    <div class="side-bar">
+        <form class="file-upload-form" enctype="multipart/form-data">
+            <div class="user-file-wrapper file-upload-div">
+                <input type="text" name="name" class="uploading-file-name invisible" />
+                <div class="image-container">
+                    <img src="resources/images/rhombus.svg" class="rhombus right-top-figure" />
+                    <img src="resources/images/rhombus.svg" class="rhombus left-bottom-figure" />
+                </div>
+                <label class="handle-uploader">
+                    <span class="file-upload-state">File upload</span>
+                    <input class="uploading-file invisible" type="file" name="content" />
+                </label>
+                <div class="image-container">
+                    <img src="resources/images/rhombus.svg" class="rhombus right-top-figure" />
+                    <img src="resources/images/rhombus.svg" class="rhombus left-bottom-figure" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="content-container">
+        <div class="main-page-header">
+            <button class="logout-button">
+                <img src="resources/images/rhombus.svg" class="rhombus" />
+                Logout
+                <img src="resources/images/rhombus.svg" class="rhombus" />
+            </button>
+        </div>
+
+        <div class="file-container">
+        </div>
+    </div>
+
+    <div class="user-file-wrapper invisible file-pattern">
+        <div class="image-container">
+            <img src="resources/images/rhombus.svg" class="rhombus right-top-figure" />
+            <img src="resources/images/rhombus.svg" class="rhombus left-bottom-figure" />
+        </div>
+        <div class="crud-button-container">
+            <input type="number" class="file-id invisible" />
+            <button class="crud-button edit-button"><i class="fa fa-pencil-square" aria-hidden="true"></i></button>
+            <button class="crud-button download-button"><i class="fa fa-download" aria-hidden="true"></i></button>
+            <button class="crud-button delete-button"><i class="fa fa-trash" aria-hidden="true"></i></button>
+        </div>
+        <span class="file-name"></span>
+        <div class="image-container">
+            <img src="resources/images/rhombus.svg" class="rhombus right-top-figure" />
+            <img src="resources/images/rhombus.svg" class="rhombus left-bottom-figure" />
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="resources/js/view/dragAndDropBox.js"></script>
+    <script src="resources/js/view/mainView.js"></script>
+</body>
+
+</html>
