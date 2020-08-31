@@ -5,4 +5,6 @@
 * HTML, CSS, JS, JQuery
 * Oracle Database
 
-![welcome image](images/welcome.PNG)
+![Welcome image](images/welcome.PNG)
+
+![Main page](images/main.PNG)
