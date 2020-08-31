@@ -1,8 +1,8 @@
-#CLOUD STORAGE
+# CLOUD STORAGE
 
-#####Technologies:
+##### Technologies:
 * Java 8, Spring boot MVC, Hibernate
 * HTML, CSS, JS, JQuery
 * Oracle Database
 
-![](/images/welcome.png)
+![welcome image](images/welcome.PNG)
