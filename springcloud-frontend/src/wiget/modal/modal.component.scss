@@ -1,0 +1,73 @@
+.changing-form {
+  width: 100%;
+  height: 100%;
+  position:absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.changing-container {
+  position:absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 60vw;
+  height: 4vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: black;
+  border: 0.3vw solid black;
+  border-radius: 2vw;
+}
+
+.changing-name {
+  width: 50%;
+  height: 90%;
+  background: black;
+  color: white;
+  font-size: 1.7vw;
+  text-align: center;
+  border: 0.3vw solid black;
+  border-radius: 2vw 0 0 2vw;
+  outline: none;
+}
+
+.changing-name::placeholder {
+  color: white;
+  font-size: 1.7vw;
+}
+
+.change-save-button, .change-cancel-button{
+  width: 20%;
+  height: 100%;
+  font-size: 1.7vw;
+  text-align: center;
+  color: white;
+  background: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 0.3vw solid black;
+  border-radius: 2vw;
+}
+
+.change-cancel-button:hover, .change-save-button:hover {
+  cursor: pointer;
+  font-size: 2.3vw;
+  font-weight: bold;
+  transition: 0.5s linear;
+}
+
+.change-cancel-button:not(hover), .change-save-button:not(hover) {
+  font-size: 1.7vw;
+  font-weight: normal;
+  transition: 0.5s linear;
+}

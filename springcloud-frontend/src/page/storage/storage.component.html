@@ -1,0 +1,54 @@
+<div class="storage-page">
+  <div class="message-modal-window invisible">
+    <div class="message">
+      <div class="message-image-container">
+        <img src="assets/images/whiteRhombus.svg" class="white-rhombus" alt=""/>
+        <label class="message-close-button">
+          <i class="fa fa-window-close" aria-hidden="true"></i>
+        </label>
+      </div>
+      <span class="message-text"></span>
+      <div class="message-image-container">
+        <img src="assets/images/whiteRhombus.svg" class="white-rhombus" alt=""/>
+        <img src="assets/images/whiteRhombus.svg" class="white-rhombus" alt=""/>
+      </div>
+    </div>
+  </div>
+  <div class="side-bar">
+    <form class="file-upload-form" enctype="multipart/form-data">
+      <div class="user-file-wrapper file-upload-div" [ngClass]="{'fire': fileDrag}"
+           (dragenter)="toggleFileDrag($event)"
+           (dragleave)="toggleFileDrag($event)"
+           (dragover)="preventDefaults($event)"
+           (drop)="onFileDrop($event)"
+           (change)="onFileChange($event)">
+        <input type="text" name="name" class="uploading-file-name invisible"/>
+        <div class="image-container">
+          <img src="assets/images/rhombus.svg" class="rhombus right-top-figure" alt=""/>
+          <img src="assets/images/rhombus.svg" class="rhombus left-bottom-figure" alt=""/>
+        </div>
+        <label class="handle-uploader">
+          <span class="file-upload-state">File upload</span>
+          <input class="uploading-file invisible" type="file" name="content"/>
+        </label>
+        <div class="image-container">
+          <img src="assets/images/rhombus.svg" class="rhombus right-top-figure" alt=""/>
+          <img src="assets/images/rhombus.svg" class="rhombus left-bottom-figure" alt=""/>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="content-container">
+    <div class="main-page-header">
+      <button class="logout-button" (click)="logout()">
+        <img src="assets/images/rhombus.svg" class="rhombus" alt=""/>
+        Logout
+        <img src="assets/images/rhombus.svg" class="rhombus" alt=""/>
+      </button>
+    </div>
+
+    <div class="file-container">
+      <file *ngFor="let file of files; trackBy: trackFile" [name]="file.name" [id]="file.id" (delete)="removeFile($event)"></file>
+    </div>
+  </div>
+</div>

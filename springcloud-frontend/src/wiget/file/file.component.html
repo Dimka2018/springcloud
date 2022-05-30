@@ -1,0 +1,17 @@
+<div class="user-file-wrapper">
+  <div class="image-container">
+    <img src="assets/images/rhombus.svg" class="rhombus right-top-figure" alt=""/>
+    <img src="assets/images/rhombus.svg" class="rhombus left-bottom-figure" alt=""/>
+  </div>
+  <div class="crud-button-container">
+    <button class="crud-button edit-button" (click)="toggleModalMode()"><i class="fa fa-pencil-square" aria-hidden="true"></i></button>
+    <button class="crud-button download-button" (click)="download()"><i class="fa fa-download" aria-hidden="true"></i></button>
+    <button class="crud-button delete-button" (click)="deleteFile()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+  </div>
+  <span class="file-name">{{name}}</span>
+  <div class="image-container">
+    <img src="assets/images/rhombus.svg" class="rhombus right-top-figure" alt=""/>
+    <img src="assets/images/rhombus.svg" class="rhombus left-bottom-figure" alt=""/>
+  </div>
+</div>
+<modal *ngIf="modalMode" (cancel)="toggleModalMode()" (ok)="renameFile($event)"></modal>

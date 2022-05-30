@@ -1,0 +1,20 @@
+<div class="welcome-page">
+  <form class="log-in-form form" [ngClass]="{'move-left scale-decrease': registrationMode, 'move-center scale-increase': !registrationMode}">
+    <span class="form-header">LOG IN</span>
+    <input name="login" [(ngModel)]="user.login" class="welcome-input enter-login" type="text" maxlength="30" placeholder="enter login" required />
+    <input name="password" [(ngModel)]="user.password" class="welcome-input enter-password" type="password" maxlength="30" placeholder="enter password" required />
+    <span class="log-in-message message">{{errorMessage}}</span>
+    <input class="form-button" type="button" value="log in" (click)="login()"/>
+    <span class="registration-link link" (click)="toggleRegistrationMode()">Not registered?<br/>Click here!!!</span>
+  </form>
+
+  <form class="registration-form form" [ngClass]="{'move-right scale-decrease': !registrationMode, 'move-center scale-increase': registrationMode}">
+    <span class="form-header">REGISTRATION</span>
+    <input name="login" [(ngModel)]="user.login" class="welcome-input registration-login" type="text" maxlength="30" placeholder="enter login" required />
+    <input name="password" [(ngModel)]="user.password" class="welcome-input registration-password" type="password" maxlength="30" placeholder="enter password" required />
+    <span class="registration-message message"></span>
+    <input class="form-button" type="button" value="register" (click)="register()" />
+    <span class="log-in-link link" (click)="toggleRegistrationMode()">Have account?<br/>Click here!!!</span>
+  </form>
+</div>
+

@@ -1,0 +1,154 @@
+.welcome-page{
+  background: black;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+.link:hover {
+  cursor: pointer;
+}
+
+.form{
+  width: 25vw;
+  height: 40vw;
+  border-radius: 2vw;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: black;
+
+}
+
+.log-in-form {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.registration-form {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -200vw;
+  margin: auto;
+  transform: scale(0.3);
+}
+
+.form-header{
+  margin-top: 1vw;
+  font-family: inherit;
+  font-size: 2.5vw;
+  margin-bottom: 6vw;
+  color: inherit;
+}
+
+.welcome-input{
+  margin-top: 2vw;
+  width: 80%;
+  height:5%;
+  border: 0.3vw solid black;
+  border-radius: 2vw;
+  font-size: 1.4vw;
+  text-align: center;
+  font-family: inherit;
+  color: black;
+}
+
+.form-button{
+  margin-top: 3vw;
+  width: 80%;
+  height:7%;
+  border: 0.3vw solid black;
+  border-radius: 2vw;
+  font-size: 1.3vw;
+  text-align: center;
+  font-family: inherit;
+  color: black;
+}
+
+.form-button:hover, .welcome-input:focus{
+  background: black;
+  color: white;
+  transition: 1s linear;
+}
+.form-button:hover {
+  cursor: pointer;
+}
+
+.form-button:not(hover), .welcome-input:not(focus){
+  background: white;
+  color: black;
+  transition: 1s linear;
+}
+
+.welcome-input:focus::-moz-placeholder {
+  color: white;
+}
+
+.welcome-input:focus::-webkit-input-placeholder {
+  color: white;
+  transition: 1s linear;
+}
+
+.welcome-input:not(focus)::-webkit-input-placeholder {
+  color: black;
+  transition: 1s linear;
+}
+
+.welcome-input:not(focus)::-moz-placeholder {
+  color: black;
+  transition: 1s linear;
+}
+
+.link {
+  margin-top: 2vw;
+  font-size: 1.5vw;
+  text-align: center;
+  color: black;
+  text-decoration: none;
+}
+
+.move-left {
+  left: -200vw;
+  transition: 1s linear;
+}
+
+.move-right {
+  right: -200vw;
+  transition: 1s linear;
+}
+
+.move-center {
+  right: 0;
+  left: 0;
+  transition: 1s linear;
+}
+
+.scale-decrease {
+  -webkit-transform: scale(0.3);
+  transform: scale(0.3);
+  transition: 1s ease-in;
+}
+
+.scale-increase {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  transition: 1s ease-out;
+}
+
+.message {
+  width: 80%;
+  height: 15%;
+  color: black;
+  margin-top: 2vw;
+  background: transparent;
+  font-size: 1.7vw;
+  text-align: center;
+}

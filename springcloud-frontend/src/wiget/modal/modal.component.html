@@ -1,0 +1,7 @@
+<div class="changing-form">
+  <div class="changing-container">
+    <input [(ngModel)]="inputContent" [placeholder]="modalMessage" class="changing-name" type="text" maxlength="250" required/>
+    <label class="change-save-button" (click)="onOk()">Ok</label>
+    <label class="change-cancel-button" (click)="onCancel()">Cancel</label>
+  </div>
+</div>
