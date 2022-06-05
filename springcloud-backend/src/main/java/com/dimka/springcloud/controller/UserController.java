@@ -22,14 +22,4 @@ public class UserController {
     public Response registerUser(@RequestBody RegistrationRequest user) {
         return userApiService.createUser(user);
     }
-
-    /*@PostMapping("/api/user/session")
-    public Response login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
-        return userApiService.login(loginRequest, request);
-    }
-
-    @DeleteMapping("/api/user/session")
-    public void logout(HttpServletRequest request) {
-        userApiService.logout(request);
-    }*/
 }
