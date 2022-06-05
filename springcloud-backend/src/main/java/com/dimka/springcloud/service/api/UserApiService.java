@@ -1,6 +1,5 @@
 package com.dimka.springcloud.service.api;
 
-import com.dimka.springcloud.dto.LoginRequest;
 import com.dimka.springcloud.dto.RegistrationRequest;
 import com.dimka.springcloud.dto.Response;
 import com.dimka.springcloud.entity.User;
@@ -10,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,22 +34,5 @@ public class UserApiService {
             response.setMessage("User already exists");
         }
         return response;
-    }
-
-    public Response login(LoginRequest loginRequest, HttpServletRequest request) {
-        Response response = new Response()
-                .setSuccess(true);
-        Optional<User> user = userService.find(loginRequest.getLogin(),loginRequest.getPassword());
-        if (user.isPresent()) {
-            request.getSession().setAttribute("user", user.get());
-        } else {
-            response.setSuccess(false)
-                    .setMessage("Invalid login or password");
-        }
-        return response;
-    }
-
-    public void logout(HttpServletRequest httpServletRequest) {
-        httpServletRequest.getSession().invalidate();
     }
 }
